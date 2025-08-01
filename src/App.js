@@ -12,6 +12,8 @@ class App extends React.Component {
     location: 'Ho Chi Minh city, Viet Nam'
   };
 
+
+
   clickHandle = (event) => {
     // console.log(this.state.name);
     this.setState({
@@ -19,16 +21,37 @@ class App extends React.Component {
       birth: Math.floor((Math.random() * 2000) + 2000)
     })
   }
+
+
   mouseHover = (event) => {
     console.log(Math.random().toPrecision(2) * 10);
+  }
+
+  onChangeInput = (event) => {
+    this.setState({
+      name: event.target.value
+    })
+    console.log(event.target.value);
+  }
+
+  handleOnSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.state)
   }
   render() {
     return (
       <>
         <div>My name is {this.state.name} and im {2025 - this.state.birth} year old</div>
-        <button onClick={this.clickHandle}>Click me</button>
-        <button onMouseOver={this.mouseHover}>Hover me</button>
+        {/* <button onClick={this.clickHandle}>Click me</button>
+        <button onMouseOver={this.mouseHover}>Hover me</button> */}
+        <form onSubmit={(event) => { this.handleOnSubmit(event) }}>
 
+          <input
+            type='text'
+            onChange={(event) => { this.onChangeInput(event) }} />
+
+          <button>Submit</button>
+        </form>
       </>
     )
   }
