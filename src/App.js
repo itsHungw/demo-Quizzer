@@ -13,7 +13,11 @@ class App extends React.Component {
   };
 
   clickHandle = (event) => {
-    console.log(this.state.name);
+    // console.log(this.state.name);
+    this.setState({
+      name: 'Jimmy',
+      birth: Math.floor((Math.random() * 2000) + 2000)
+    })
   }
   mouseHover = (event) => {
     console.log(Math.random().toPrecision(2) * 10);
