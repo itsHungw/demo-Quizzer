@@ -9,11 +9,23 @@ class App extends React.Component {
   state = {
     name: 'Nguyen Vinh Hung',
     birth: 2006,
-
+    location: 'Ho Chi Minh city, Viet Nam'
   };
+
+  clickHandle = (event) => {
+    console.log(this.state.name);
+  }
+  mouseHover = (event) => {
+    console.log(Math.random().toPrecision(2) * 10);
+  }
   render() {
     return (
-      <div>My name is {this.state.name} and im {2026 - this.state.birth} year old</div>
+      <>
+        <div>My name is {this.state.name} and im {2025 - this.state.birth} year old</div>
+        <button onClick={this.clickHandle}>Click me</button>
+        <button onMouseOver={this.mouseHover}>Hover me</button>
+
+      </>
     )
   }
 }
