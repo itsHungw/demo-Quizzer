@@ -5,13 +5,37 @@ import { increaseCounter, decreaseCounter } from './redux/action/counterAction';
 import MyComponent from './components/MyComponent';
 import React from 'react';
 import UserInfo from './components/UserInfo';
+import DisplayInfo from './components/DisplayInfo';
 class App extends React.Component {
-
+  state = {
+    listUser: [
+      {
+        id: 1,
+        name: 'Jimmy',
+        age: 19
+      },
+      {
+        id: 2,
+        name: 'Nguyen Vinh Hung',
+        age: 20
+      },
+      {
+        id: 3,
+        name: 'Sasuke',
+        age: 27
+      }
+    ]
+  }
   render() {
+
+
     return (
       <>
         <div>Hello World</div>
         <UserInfo />
+        <br></br>
+        <br></br>
+        <DisplayInfo listUser={this.state.listUser} />
       </>
     )
   }
