@@ -1,5 +1,5 @@
 import React from "react";
-
+import './DisplayInfo.scss'
 class DisplayInfo extends React.Component {
     state = {
         isShowList: true
@@ -13,7 +13,7 @@ class DisplayInfo extends React.Component {
     render() {
         const { listUser } = this.props;
         return (
-            <>
+            <div className="display-info-container">
                 <div>
                     <span
                         onClick={() => { this.handleShowHide() }}>
@@ -38,7 +38,7 @@ class DisplayInfo extends React.Component {
 
                 })}
 
-            </>
+            </div>
 
         )
     }
