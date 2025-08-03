@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { increaseCounter, decreaseCounter } from './redux/action/counterAction';
 import MyComponent from './components/MyComponent';
 import React from 'react';
-import UserInfo from './components/UserInfo';
+import AddUserInfo from './components/AddUserInfo';
 import DisplayInfo from './components/DisplayInfo';
 class App extends React.Component {
   state = {
@@ -26,13 +26,20 @@ class App extends React.Component {
       }
     ]
   }
+
+  addUserInfo = (obj) => {
+    console.log(obj)
+    this.setState({
+      listUser: [obj, ...this.state.listUser]
+    })
+  }
   render() {
 
 
     return (
       <>
         <div>Hello World</div>
-        <UserInfo />
+        <AddUserInfo addUserInfo={this.addUserInfo} />
         <br></br>
         <br></br>
         <DisplayInfo listUser={this.state.listUser} />
