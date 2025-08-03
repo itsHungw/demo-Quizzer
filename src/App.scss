@@ -10,10 +10,26 @@ body {
 
 .app-container {
   .header-container {
+    z-index: 10;
+    position: fixed;
+    width: 100%;
+    opacity: 0.6;
 
     .navbar-nav .nav-link.active,
     .navbar-nav .nav-link.show {
       background-color: #ccc;
     }
   }
+}
+
+.app-container {
+  .app-content {
+    video {
+      width: 100%;
+    }
+  }
+}
+
+.app-container {
+  .header-container {}
 }

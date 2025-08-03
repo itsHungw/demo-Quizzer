@@ -22,7 +22,7 @@ const App = () => {
           </div>
         </div>
 
-        <div className='app-container'>
+        <div className='app-content'>
           <Outlet />
         </div>
       </div>
