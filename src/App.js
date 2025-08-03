@@ -12,17 +12,17 @@ class App extends React.Component {
       {
         id: 1,
         name: 'Jimmy',
-        age: 19
+        age: "16"
       },
       {
         id: 2,
         name: 'Nguyen Vinh Hung',
-        age: 20
+        age: "20"
       },
       {
         id: 3,
         name: 'Sasuke',
-        age: 27
+        age: "27"
       }
     ]
   }
