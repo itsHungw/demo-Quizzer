@@ -3,58 +3,51 @@ import './App.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { increaseCounter, decreaseCounter } from './redux/action/counterAction';
 import MyComponent from './components/MyComponent';
-import React from 'react';
+import React, { useState } from 'react';
 import AddUserInfo from './components/AddUserInfo';
 import DisplayInfo from './components/DisplayInfo';
-class App extends React.Component {
-  state = {
-    listUser: [
-      {
-        id: 1,
-        name: 'Jimmy',
-        age: "16"
-      },
-      {
-        id: 2,
-        name: 'Nguyen Vinh Hung',
-        age: "20"
-      },
-      {
-        id: 3,
-        name: 'Sasuke',
-        age: "27"
-      }
-    ]
-  }
+const App = () => {
+  const [listUser, setState] = useState([
+    {
+      id: 1,
+      name: 'Jimmy',
+      age: "16"
+    },
+    {
+      id: 2,
+      name: 'Nguyen Vinh Hung',
+      age: "20"
+    },
+    {
+      id: 3,
+      name: 'Sasuke',
+      age: "27"
+    }
+  ])
 
-  addUserInfo = (obj) => {
+
+  const addUserInfo = (obj) => {
     console.log(obj)
-    this.setState({
-      listUser: [obj, ...this.state.listUser]
-    })
+    setState([obj, ...listUser])
   }
 
-  deleteUserInfo = (userId) => {
-    let listUserClone = [...this.state.listUser]
+  const deleteUserInfo = (userId) => {
+    let listUserClone = [...listUser]
     listUserClone = listUserClone.filter((item) => userId !== item.id)
-    this.setState({
-      listUser: listUserClone
-    })
+    setState(listUserClone)
   }
-  render() {
 
+  return (
+    <>
+      <div>Hello World</div>
+      <AddUserInfo addUserInfo={addUserInfo} />
+      <br></br>
+      <br></br>
+      <DisplayInfo listUser={listUser}
+        deleteUserInfo={deleteUserInfo} />
+    </>
+  )
 
-    return (
-      <>
-        <div>Hello World</div>
-        <AddUserInfo addUserInfo={this.addUserInfo} />
-        <br></br>
-        <br></br>
-        <DisplayInfo listUser={this.state.listUser}
-          deleteUserInfo={this.deleteUserInfo} />
-      </>
-    )
-  }
 }
 
 // const App = () => {
