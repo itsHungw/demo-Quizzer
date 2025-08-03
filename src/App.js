@@ -33,6 +33,14 @@ class App extends React.Component {
       listUser: [obj, ...this.state.listUser]
     })
   }
+
+  deleteUserInfo = (userId) => {
+    let listUserClone = [...this.state.listUser]
+    listUserClone = listUserClone.filter((item) => userId !== item.id)
+    this.setState({
+      listUser: listUserClone
+    })
+  }
   render() {
 
 
@@ -42,7 +50,8 @@ class App extends React.Component {
         <AddUserInfo addUserInfo={this.addUserInfo} />
         <br></br>
         <br></br>
-        <DisplayInfo listUser={this.state.listUser} />
+        <DisplayInfo listUser={this.state.listUser}
+          deleteUserInfo={this.deleteUserInfo} />
       </>
     )
   }

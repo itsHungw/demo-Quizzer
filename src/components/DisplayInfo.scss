@@ -11,6 +11,10 @@
         width: 30%;
         animation: spin 5s linear infinite;
     }
+
+    button {
+        margin: 10px;
+    }
 }
 
 @keyframes spin {
