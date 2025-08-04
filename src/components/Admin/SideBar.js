@@ -15,6 +15,9 @@ import sidebarBg from '../../assets/bg2.jpg';
 import { SiQualcomm } from "react-icons/si";
 import { MdDashboard } from "react-icons/md";
 
+import './SideBar.scss';
+import { Link } from 'react-router-dom';
+
 
 
 const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
@@ -53,6 +56,7 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
                             suffix={<span className="badge red">New</span>}
                         >
                             Dashboard
+                            <Link to="/admins" />
                         </MenuItem>
                         {/* <MenuItem icon={<FaGem />}>Component</MenuItem> */}
                     </Menu>
@@ -63,9 +67,9 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
                             title={"Feature"}
                         // icon={<FaRegLaughWink />}
                         >
-                            <MenuItem>User management</MenuItem>
-                            <MenuItem>Quiz test management</MenuItem>
-                            <MenuItem>Question management</MenuItem>
+                            <MenuItem>User management<Link to="manage-users" /></MenuItem>
+                            <MenuItem>Quiz test management<Link to="/" /></MenuItem>
+                            <MenuItem>Question management<Link to="/" /></MenuItem>
                         </SubMenu>
 
                     </Menu>
