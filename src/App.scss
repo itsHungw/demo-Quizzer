@@ -10,6 +10,11 @@ body {
 
 .app-container {
   .header-container {
+    a.navbar-brand.active {
+      font-size: 30px;
+      font-weight: 500;
+    }
+
     .navbar {
       padding: 20px 0;
       z-index: 10;
@@ -78,12 +83,18 @@ body {
     }
 
     .title-3 {
+      width: 31%;
+
       button {
         background-color: black;
         color: white;
         padding: 15px 20px;
         font-weight: 400;
         border-radius: 5px;
+      }
+
+      &:hover {
+        opacity: 0.6;
       }
     }
   }
