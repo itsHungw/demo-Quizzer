@@ -1,15 +1,17 @@
+import axios from 'axios';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { IoMdAddCircle } from "react-icons/io";
 
-function ModalCreateUser() {
-    const [show, setShow] = useState(false);
+function ModalCreateUser(props) {
+    const { show, setShow } = props
+    // const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [userName, setUserName] = useState("");
+    const [username, setUserName] = useState("");
     const [role, setRole] = useState("USER");
     const [image, setImage] = useState('')
     const [previewImage, setPreviewImage] = useState("")
@@ -23,13 +25,30 @@ function ModalCreateUser() {
             //setPreviewImage("")
         }
     }
+
+    const handleSubmit = async () => {
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('username', username);
+        formData.append('role', role);
+        formData.append('userImage', image);
+
+        let res = await axios.post('http://localhost:8081/api/v1/participant', formData)
+        console.log(res)
+
+    }
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            {/* <Button variant="primary" onClick={handleShow}>
                 Launch demo modal
-            </Button>
+            </Button> */}
 
-            <Modal show={show} onHide={handleClose} size='xl' backdrop='static'>
+            <Modal
+                show={show}
+                onHide={handleClose}
+                size='xl'
+                backdrop='static'>
                 <Modal.Header closeButton>
                     <Modal.Title>Add new user</Modal.Title>
                 </Modal.Header>
@@ -47,7 +66,7 @@ function ModalCreateUser() {
 
                         <div class="col-md-6">
                             <label for="inputCity" class="form-label">User name</label>
-                            <input type="text" class="form-control" id="inputCity" value={userName} onChange={(event) => setUserName(event.target.value)} />
+                            <input type="text" class="form-control" id="inputCity" value={username} onChange={(event) => setUserName(event.target.value)} />
                         </div>
                         <div class="col-md-4">
                             <label for="inputState" class="form-label">Role</label>
@@ -82,7 +101,7 @@ function ModalCreateUser() {
                         Close
                     </Button>
 
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={() => handleSubmit()}>
                         Save
                     </Button>
                 </Modal.Footer>
