@@ -5,6 +5,8 @@ import Modal from 'react-bootstrap/Modal';
 import { IoMdAddCircle } from "react-icons/io";
 import toast, { Toaster } from 'react-hot-toast';
 import { tab } from '@testing-library/user-event/dist/tab';
+import { postCreateNewUser } from '../../../service/apiService';
+
 
 function ModalCreateUser(props) {
     const { show, setShow } = props
@@ -117,21 +119,16 @@ function ModalCreateUser(props) {
         }
         if (hasError) return;
 
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('username', username);
-        formData.append('role', role);
-        formData.append('userImage', image);
 
-        let res = await axios.post('http://localhost:8081/api/v1/participant', formData)
-        console.log(res);
 
-        if (res.data.EC !== 0) {
-            toast.error(res.data.EM);
+        let data = await postCreateNewUser(email, password, username, role, image)
+        console.log('Componetn', data);
+
+        if (data.EC !== 0) {
+            toast.error(data.EM);
         }
         else {
-            toast.success(res.data.EM)
+            toast.success(data.EM)
             handleClose();
         }
     }
@@ -140,7 +137,9 @@ function ModalCreateUser(props) {
 
     return (
         <>
-            <Toaster />
+            <Toaster
+                position="top-right"
+                reverseOrder={false} />
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -226,5 +225,6 @@ function ModalCreateUser(props) {
         </>
     );
 }
+
 
 export default ModalCreateUser
