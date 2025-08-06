@@ -28,7 +28,16 @@
 
 
 .user-container {
-    .user-content {
+
+    .user-content,
+    .manage-user-title {
+        margin: 10px 10px;
+
+        .btn-add-user,
+        .users-table {
+            margin: 20px 10px;
+        }
+
         button.btn.btn-primary {
             display: flex;
             align-items: center;

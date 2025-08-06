@@ -3,6 +3,7 @@
 
     .admin-sidebar {
         height: 100vh;
+
     }
 
     .admin-content {
@@ -10,11 +11,14 @@
 
         .admin-header {
             height: 40px;
-            border: 1px solid rebeccapurple
+            border: 1px solid rebeccapurple;
+            padding: 10px 10px;
         }
 
         .admin-main {
-            border: 1px solid black;
+
+            padding: 10px 10px;
+
         }
     }
 
