@@ -1,22 +1,10 @@
-import { useEffect, useState } from "react"
+
 import axios from "axios"
 import { getAllUser } from "../../../service/apiService"
 const TableUser = (props) => {
-    const [listUser, setListUser] = useState([
+    // const [listUser, setListUser] = useState([])
+    const { listUser } = props
 
-    ])
-
-    useEffect(() => {
-        fetchListUser()
-    })
-
-    const fetchListUser = async () => {
-        let res = await getAllUser();
-        // console.log(res.DT)
-        if (res.EC === 0) {
-            setListUser(res.DT);
-        }
-    }
     return (
         <>
             <table class="table table-hover table-bordered">

@@ -130,6 +130,7 @@ function ModalCreateUser(props) {
         else {
             toast.success(data.EM)
             handleClose();
+            await props.fetchListUser()
         }
     }
 
