@@ -3,11 +3,24 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { IoMdAddCircle } from "react-icons/io";
+import toast, { Toaster } from 'react-hot-toast';
+import { tab } from '@testing-library/user-event/dist/tab';
 
 function ModalCreateUser(props) {
     const { show, setShow } = props
     // const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        setEmail("");
+        setPassword("");
+        setUserName("");
+        setRole("");
+        setImage("");
+        setPreviewImage("");
+        setEmailError("");
+        setPasswordError("");
+        setUsernameError("");
+    }
     const handleShow = () => setShow(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,7 +39,84 @@ function ModalCreateUser(props) {
         }
     }
 
+
+
+    // Validate email 
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+
+    //handle validation email
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
+    const handleEmailChange = (event) => {
+        const value = event.target.value;
+        setEmail(value);
+        if (!validateEmail(value)) {
+            setEmailError("Email is invalid.");
+        } else {
+            setEmailError("");
+        }
+    };
+
+    //handle validate password
+    const validatePassword = (password) => {
+        return (
+            // /[A-Z]/.test(password) &&
+            // /[a-z]/.test(password) &&
+            /[0-9]/.test(password) &&
+            // /[^A-Za-z0-9]/.test(password) &&
+            password.length > 4
+        )
+    }
+    const handlePasswordChange = (event) => {
+        const value = event.target.value;
+        setPassword(value);
+        if (!validatePassword(value)) {
+            setPasswordError("Password is invalid");
+        } else {
+            setPasswordError("");
+        }
+    };
+
+    //handle validation userName
+
+    const validateUserName = (username) => {
+        return username.length > 3
+    }
+    const handleUserNameChange = (event) => {
+        const value = event.target.value;
+        setUserName(value);
+        if (!validateUserName(value)) {
+            setUsernameError('User name must longer than 4 characters!')
+        } else {
+            setUsernameError("");
+        }
+    }
+
+
+
+    //submit form 
     const handleSubmit = async () => {
+        let hasError = false;
+        // Validate email
+        if (!validateEmail(email)) {
+            setEmailError("Email is required.");
+            hasError = true;
+        }
+        // Validate password
+        if (!validatePassword(password)) {
+            setPasswordError("Password is required.");
+            hasError = true;
+        }
+        // Validate username
+        if (!username) {
+            setUsernameError("Username is required.");
+            hasError = true;
+        }
+        if (hasError) return;
+
         const formData = new FormData();
         formData.append('email', email);
         formData.append('password', password);
@@ -35,15 +125,22 @@ function ModalCreateUser(props) {
         formData.append('userImage', image);
 
         let res = await axios.post('http://localhost:8081/api/v1/participant', formData)
-        console.log(res)
+        console.log(res);
 
+        if (res.data.EC !== 0) {
+            toast.error(res.data.EM);
+        }
+        else {
+            toast.success(res.data.EM)
+            handleClose();
+        }
     }
+
+
+
     return (
         <>
-            {/* <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button> */}
-
+            <Toaster />
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -54,45 +151,65 @@ function ModalCreateUser(props) {
                 </Modal.Header>
 
                 <Modal.Body>
-                    <form class="row g-3">
-                        <div class="col-md-6">
-                            <label for="inputEmail4" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="inputEmail4" value={email} onChange={(event) => setEmail(event.target.value)} />
+                    <form className="row g-3">
+                        <div className="col-md-6">
+                            <label htmlFor="inputEmail4" className="form-label">Email</label>
+                            <input
+                                type="email"
+                                className={`form-control${emailError ? ' is-invalid' : ''}`}
+                                id="inputEmail4"
+                                value={email}
+                                onChange={handleEmailChange}
+                                style={emailError ? { borderColor: 'red' } : {}}
+                            />
+                            {emailError && <div style={{ color: 'red', fontSize: '13px' }}>{emailError}</div>}
                         </div>
-                        <div class="col-md-6">
-                            <label for="inputPassword4" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="inputPassword4" value={password} onChange={(event) => setPassword(event.target.value)} />
+                        <div className="col-md-6">
+                            <label htmlFor="inputPassword4" className="form-label">Password</label>
+                            <input
+                                type="password"
+                                className={`form-control${passwordError ? ' is-invalid' : ''}`}
+                                id="inputPassword4"
+                                value={password}
+                                onChange={handlePasswordChange}
+                                style={passwordError ? { borderColor: 'red' } : {}}
+                            />
+                            {passwordError && <div style={{ color: 'red', fontSize: '13px' }}>{passwordError}</div>}
                         </div>
 
-                        <div class="col-md-6">
-                            <label for="inputCity" class="form-label">User name</label>
-                            <input type="text" class="form-control" id="inputCity" value={username} onChange={(event) => setUserName(event.target.value)} />
+                        <div className="col-md-6">
+                            <label htmlFor="userName" className="form-label">User name</label>
+                            <input
+                                type="text"
+                                className={`form-control${usernameError ? ' is-invalid' : ''}`}
+                                id="userName"
+                                value={username}
+                                onChange={handleUserNameChange}
+                                style={usernameError ? { borderColor: 'red' } : {}}
+                            />
+                            {usernameError && <div style={{ color: 'red', fontSize: '13px' }}>{usernameError}</div>}
                         </div>
-                        <div class="col-md-4">
-                            <label for="inputState" class="form-label">Role</label>
-                            <select id="inputState" class="form-select" value={role} onChange={(event) => setRole(event.target.value)}>
-                                <option selected value={'USER'}>
-                                    User
-                                </option>
+                        <div className="col-md-4">
+                            <label htmlFor="role" className="form-label">Role</label>
+                            <select id="role" className="form-select" value={role} onChange={(event) => setRole(event.target.value)}>
+                                <option value={'USER'}>User</option>
                                 <option value={'ADMIN'}>Admin</option>
                             </select>
                         </div>
 
-                        <div class="col-md-12 add-file">
-                            <label htmlFor='label-upload'><IoMdAddCircle style={{ marginRight: '5px' }} />
+                        <div className="col-md-12 add-file">
+                            <label htmlFor='label-upload' style={{ cursor: 'pointer' }}><IoMdAddCircle style={{ marginRight: '5px' }} />
                                 Upload image file </label>
-                            <input type='file' id='label-upload' hidden onChange={(event) => { handleImage(event) }} />
+                            <input type='file' id='label-upload' style={{ display: 'none' }} onChange={handleImage} />
                         </div>
 
-                        <div class="col-md-12 img-space">
+                        <div className="col-md-12 img-space">
                             {previewImage ?
-                                <img src={previewImage} />
+                                <img src={previewImage} alt="preview" style={{ maxWidth: '150px', maxHeight: '150px' }} />
                                 :
                                 <span>Empty Image</span>
                             }
-
                         </div>
-
                     </form>
                 </Modal.Body>
 

@@ -1,6 +1,7 @@
 import ModalCreateUser from "./ModalCreateUser"
 import './ManageUser.scss'
 import { use, useState } from "react"
+import { IoMdAddCircle } from "react-icons/io";
 
 
 const ManageUser = () => {
@@ -10,7 +11,7 @@ const ManageUser = () => {
         <div className="user-container">
             <div className="manage-user-title">Users management</div>
             <div className="user-content">
-                <div className="btn-add-user"><button onClick={() => setIsShow(true)}>Add new user</button></div>
+                <div className=" btn-add-user"><button className="btn btn-primary" onClick={() => setIsShow(true)}> <IoMdAddCircle />Add new user</button></div>
                 <div className="users-table">Table</div>
                 <ModalCreateUser show={isShow} setShow={setIsShow} />
             </div>
