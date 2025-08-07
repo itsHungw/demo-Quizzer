@@ -5,13 +5,15 @@ import { IoMdAddCircle } from "react-icons/io";
 import TableUser from "./TableUser";
 import { useEffect } from "react"
 import { getAllUser } from "../../../service/apiService"
+import ModalUpdateUser from "./ModalUpdateUser";
 
 
 const ManageUser = () => {
 
     const [isShow, setIsShow] = useState(false)
     const [listUser, setListUser] = useState([])
-
+    const [isShowUpdate, setShowUpdate] = useState(false)
+    const [dataUser, setDataUser] = useState()
 
     useEffect(() => {
         fetchListUser()
@@ -25,7 +27,11 @@ const ManageUser = () => {
         }
     }
 
-
+    const handleClickUpdate = (user) => {
+        setShowUpdate(true);
+        setDataUser(user)
+        // console.log(user)
+    }
 
     return (
         <div className="user-container">
@@ -33,12 +39,21 @@ const ManageUser = () => {
             <div className="user-content">
                 <div className=" btn-add-user"><button className="btn btn-primary" onClick={() => setIsShow(true)}> <IoMdAddCircle />Add new user</button></div>
                 <div className="users-table">
-                    <TableUser listUser={listUser} />
+                    <TableUser
+                        listUser={listUser}
+                        setListUser={setListUser}
+                        handleClickUpdate={handleClickUpdate}
+                    />
                 </div>
                 <ModalCreateUser
                     show={isShow}
                     setShow={setIsShow}
                     fetchListUser={fetchListUser} />
+                <ModalUpdateUser
+                    show={isShowUpdate}
+                    setShow={setShowUpdate}
+                    dataUser={dataUser}
+                />
             </div>
         </div>
     )

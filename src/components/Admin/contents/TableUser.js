@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from "react"
 import axios from "axios"
 import { getAllUser } from "../../../service/apiService"
 const TableUser = (props) => {
@@ -30,7 +30,7 @@ const TableUser = (props) => {
                                     <td>{item.role}</td>
                                     <td>
                                         <button className="btn btn-info">View</button>
-                                        <button className="btn btn-warning mx-3">Update</button>
+                                        <button className="btn btn-warning mx-3" onClick={() => props.handleClickUpdate(item)}>Update</button>
                                         <button className="btn btn-danger">Delete</button>
                                     </td>
                                 </tr>
