@@ -8,7 +8,7 @@ import { tab } from '@testing-library/user-event/dist/tab';
 import { putUpdateUser } from '../../../service/apiService';
 import _ from 'lodash';
 
-function ModalUpdateUser(props) {
+function ModalViewUser(props) {
     const { show, setShow, dataUser } = props
     // const [show, setShow] = useState(false);
     const handleClose = () => {
@@ -163,7 +163,7 @@ function ModalUpdateUser(props) {
                 size='xl'
                 backdrop='static'>
                 <Modal.Header closeButton>
-                    <Modal.Title>Update a user</Modal.Title>
+                    <Modal.Title>View a user</Modal.Title>
                 </Modal.Header>
 
                 <Modal.Body>
@@ -198,6 +198,8 @@ function ModalUpdateUser(props) {
                         <div className="col-md-6">
                             <label htmlFor="userName" className="form-label">User name</label>
                             <input
+                                disabled
+
                                 type="text"
                                 className={`form-control${usernameError ? ' is-invalid' : ''}`}
                                 id="userName"
@@ -208,8 +210,15 @@ function ModalUpdateUser(props) {
                             {usernameError && <div style={{ color: 'red', fontSize: '13px' }}>{usernameError}</div>}
                         </div>
                         <div className="col-md-4">
+
                             <label htmlFor="role" className="form-label">Role</label>
-                            <select id="role" className="form-select" value={role} onChange={(event) => setRole(event.target.value)}>
+                            <select
+                                id="role"
+                                className="form-select"
+                                value={role}
+                                onChange={(event) => setRole(event.target.value)}
+                                disabled>
+
                                 <option value={'USER'}>User</option>
                                 <option value={'ADMIN'}>Admin</option>
                             </select>
@@ -218,7 +227,7 @@ function ModalUpdateUser(props) {
                         <div className="col-md-12 add-file">
                             <label htmlFor='label-upload' style={{ cursor: 'pointer' }}><IoMdAddCircle style={{ marginRight: '5px' }} />
                                 Upload image file </label>
-                            <input type='file' id='label-upload' style={{ display: 'none' }} onChange={handleImage} />
+                            <input disabled type='file' id='label-upload' style={{ display: 'none' }} onChange={handleImage} />
                         </div>
 
                         <div className="col-md-12 img-space">
@@ -236,9 +245,9 @@ function ModalUpdateUser(props) {
                         Close
                     </Button>
 
-                    <Button variant="primary" onClick={() => handleSubmit()}>
+                    {/* <Button variant="primary" onClick={() => handleSubmit()}>
                         Save
-                    </Button>
+                    </Button> */}
                 </Modal.Footer>
             </Modal>
         </>
@@ -246,4 +255,4 @@ function ModalUpdateUser(props) {
 }
 
 
-export default ModalUpdateUser
+export default ModalViewUser
