@@ -90,7 +90,9 @@ const ManageUser = () => {
                 <ModalDeleteUser
                     show={isShowDelete}
                     setShow={setShowDelete}
-                    dataUser={dataUser} />
+                    dataUser={dataUser}
+                    fetchListUser={fetchListUser}
+                />
             </div>
         </div>
     )
