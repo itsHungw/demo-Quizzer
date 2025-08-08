@@ -9,7 +9,7 @@ import { postCreateNewUser } from '../../../service/apiService';
 
 
 function ModalCreateUser(props) {
-    const { show, setShow } = props
+    const { show, setShow, fetchListUserWithPaginate } = props
     // const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false);
@@ -130,7 +130,8 @@ function ModalCreateUser(props) {
         else {
             toast.success(data.EM)
             handleClose();
-            await props.fetchListUser()
+            props.setCurrentPage(1)
+            await props.fetchListUserWithPaginate(1)
         }
     }
 

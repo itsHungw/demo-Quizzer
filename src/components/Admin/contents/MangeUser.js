@@ -23,13 +23,13 @@ const ManageUser = () => {
     const [isShowView, setShowView] = useState(false)
     const [isShowDelete, setShowDelete] = useState(false)
     const [pageCount, setPageCount] = useState(0)
-
+    const [currentPage, setCurrentPage] = useState(1)
 
 
     useEffect(() => {
         // fetchListUser()
-        fetchListUserWithPaginate(1)
-    }, [dataUser])
+        fetchListUserWithPaginate(currentPage)
+    }, [])
 
     const fetchListUser = async () => {
         let res = await getAllUser();
@@ -93,6 +93,8 @@ const ManageUser = () => {
                     handleClickDelete={handleClickDelete}
                     fetchListUserWithPaginate={fetchListUserWithPaginate}
                     pageCount={pageCount}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
                 <div>
 
@@ -100,12 +102,17 @@ const ManageUser = () => {
                 <ModalCreateUser
                     show={isShow}
                     setShow={setIsShow}
-                    fetchListUser={fetchListUser} />
+                    fetchListUserWithPaginate={fetchListUserWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage} />
+
                 <ModalUpdateUser
                     show={isShowUpdate}
                     setShow={setShowUpdate}
                     dataUser={dataUser}
-                    fetchListUser={fetchListUser}
+                    fetchListUserWithPaginate={fetchListUserWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
                 <ModalViewUser
                     show={isShowView}
@@ -117,7 +124,9 @@ const ManageUser = () => {
                     show={isShowDelete}
                     setShow={setShowDelete}
                     dataUser={dataUser}
-                    fetchListUser={fetchListUser}
+                    fetchListUserWithPaginate={fetchListUserWithPaginate}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                 />
             </div>
         </div>

@@ -11,8 +11,9 @@ const TableUserPaginate = (props) => {
 
 
     const handlePageClick = (event) => {
-        props.fetchListUserWithPaginate(+event.selected + 1)
-        console.log(`User requested page number ${event.selected}`);
+        const selectedPage = +event.selected + 1;
+        props.setCurrentPage(selectedPage);
+        props.fetchListUserWithPaginate(selectedPage)
     };
 
     return (
@@ -54,12 +55,12 @@ const TableUserPaginate = (props) => {
             </table>
             <div className="paginate d-flex justify-content-center">
                 <ReactPaginate
-                    nextLabel="Next >"
+                    nextLabel="next >"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={2}
                     pageCount={pageCount}
-                    previousLabel="< Prev"
+                    previousLabel="< previous"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"
@@ -72,6 +73,7 @@ const TableUserPaginate = (props) => {
                     containerClassName="pagination"
                     activeClassName="active"
                     renderOnZeroPageCount={null}
+                    forcePage={props.currentPage - 1}
                 />
             </div>
 
