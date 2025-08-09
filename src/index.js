@@ -11,6 +11,9 @@ import UserPage from './components/User/User';
 import HomePage from './components/Home/HomePage';
 import DashBoard from './components/Admin/contents/Dashboard';
 import ManageUser from './components/Admin/contents/MangeUser';
+import Auth from './components/Auth/Login';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
@@ -25,6 +28,7 @@ root.render(
           <Route index element={<DashBoard />} />
           <Route path="manage-users" element={<ManageUser />} />
         </Route>
+        <Route path="/login" element={<Auth />} />
       </Routes>
     </BrowserRouter>
 
