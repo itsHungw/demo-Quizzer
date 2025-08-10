@@ -2,30 +2,93 @@ import React, { useState } from 'react';
 import './Login.scss';
 import { Navigation } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { postLogin } from '../../service/apiService';
+import { postLogin, postRegister } from '../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
 
 function Login() {
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        name: ''
-    });
+    // const [formData, setFormData] = useState({
+    //     email: '',
+    //     password: '',
+    //     name: ''
+    // });
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [username, setUserName] = useState("");
+
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [usernameError, setUsernameError] = useState("");
+
+
+    const validateEmail = (email) => {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    };
 
     const navigation = useNavigate()
     // const handleClick = () => {
     //     alert('jiii')
     // }
 
-    const handleSubmit = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
 
-        let data = await postLogin(formData.email, formData.password)
-        console.log('Componetn', data);
+        let hasError = false;
+        if (!validateEmail(email)) {
+            setEmailError("Email is required.");
+            hasError = true;
+        }
+        if (hasError) {
+            setTimeout(() => {
+                setIsLoading(false);
+                // console.log('Form submitted:', formData);
+            }, 500);
+            return
+        }
+        let data = await postLogin(email, password)
+        if (data.EC !== 0) {
+            toast.error(data.EM);
+        }
+        else {
+            toast.success(data.EM)
+        }
+
+        setTimeout(() => {
+            setIsLoading(false);
+            // console.log('Form submitted:', formData);
+        }, 1500);
+    };
+
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+
+        let hasError = false;
+        if (!validateEmail(email)) {
+            setEmailError("Email is required.");
+            hasError = true;
+        }
+        if (!password) {
+            setPasswordError("Password is required.");
+            hasError = true;
+        }
+        // Validate username
+        if (!username) {
+            setUsernameError("Username is required.");
+            hasError = true;
+        }
+        if (hasError) {
+            setTimeout(() => {
+                setIsLoading(false);
+                // console.log('Form submitted:', formData);
+            }, 500);
+            return
+        }
+        let data = await postRegister(email, username, password)
 
         if (data.EC !== 0) {
             toast.error(data.EM);
@@ -36,13 +99,40 @@ function Login() {
 
         setTimeout(() => {
             setIsLoading(false);
-            console.log('Form submitted:', formData);
+            // console.log('Form submitted:', formData);
         }, 1500);
     };
 
-    const handleInputChange = (field, value) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+    const handleEmailChange = (event) => {
+        const value = event.target.value;
+        setEmail(value);
+        if (!validateEmail(value)) {
+            setEmailError("Email is invalid.");
+        } else {
+            setEmailError("");
+        }
     };
+    const handleNameChange = (event) => {
+        const value = event.target.value;
+        setUserName(value);
+        if (value.length > 0) {
+            setUsernameError("");
+        }
+    };
+
+    const handlePasswordChange = (event) => {
+        const value = event.target.value;
+        setPassword(value);
+        if (value.length < 5) {
+            setPasswordError("Password must longer than 4 characters");
+        } else {
+            setPasswordError("");
+
+        }
+    };
+    // const handleInputChange = (field, value) => {
+    //     setFormData(prev => ({ ...prev, [field]: value }));
+    // };
 
     return (
         <>
@@ -67,50 +157,75 @@ function Login() {
                     <div className="login-tabs">
                         <button
                             className={`tab-btn ${activeTab === 'login' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('login')}
+                            onClick={() => {
+                                setActiveTab('login')
+                                setEmail('')
+                                setPassword('')
+                                setUserName('')
+                                setEmailError('')
+                                setPasswordError('')
+
+                            }}
                         >
                             Login
                         </button>
                         <button
                             className={`tab-btn ${activeTab === 'register' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('register')}
+                            onClick={() => {
+                                setActiveTab('register')
+                                setEmail('')
+                                setPassword('')
+                                setUserName('')
+                                setEmailError('')
+                                setUsernameError('')
+                                setPasswordError('')
+                            }}
                         >
                             Sign up
                         </button>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="login-form">
+                    <form onSubmit={activeTab === 'login' ? handleLogin : handleRegister} className="login-form">
                         {activeTab === 'register' && (
                             <div className="form-group">
                                 <input
                                     type="text"
-                                    value={formData.name}
-                                    onChange={(e) => handleInputChange('name', e.target.value)}
+                                    value={username}
+                                    className={`form-control${usernameError ? ' is-invalid' : ''}`}
+                                    style={usernameError ? { borderColor: 'red' } : {}}
+                                    onChange={(e) => handleNameChange(e)}
                                     placeholder="Full name"
-                                    required
+                                // required
                                 />
+                                {usernameError && <div style={{ color: 'red', fontSize: '13px' }}>{usernameError}</div>}
                             </div>
                         )}
 
                         <div className="form-group">
                             <input
                                 type="email"
-                                value={formData.email}
-                                onChange={(e) => handleInputChange('email', e.target.value)}
+                                value={email}
+                                className={`form-control${emailError ? ' is-invalid' : ''}`}
+                                style={emailError ? { borderColor: 'red' } : {}}
+                                onChange={(e) => handleEmailChange(e)}
                                 placeholder="Email"
-                                required
+                            // required
                             />
+                            {emailError && <div style={{ color: 'red', fontSize: '13px' }}>{emailError}</div>}
                         </div>
 
                         <div className="form-group">
                             <div className="password-input">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
-                                    value={formData.password}
-                                    onChange={(e) => handleInputChange('password', e.target.value)}
+                                    value={password}
+                                    onChange={(e) => handlePasswordChange(e)}
                                     placeholder="Password"
-                                    required
+                                    className={`form-control${passwordError ? ' is-invalid' : ''}`}
+                                    style={passwordError ? { borderColor: 'red' } : {}}
                                 />
+                                {passwordError && <div style={{ color: 'red', fontSize: '13px' }}>{passwordError}</div>}
+
                                 <button
                                     type="button"
                                     className="password-toggle"

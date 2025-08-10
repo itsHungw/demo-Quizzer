@@ -301,6 +301,11 @@
     }
 }
 
+.was-validated .form-control:invalid,
+.form-control.is-invalid {
+    margin-bottom: -4px !important;
+}
+
 // Responsive
 @media (max-width: 480px) {
     .login-container {
