@@ -55,12 +55,12 @@ const TableUserPaginate = (props) => {
             </table>
             <div className="paginate d-flex justify-content-center">
                 <ReactPaginate
-                    nextLabel="next >"
+                    nextLabel=" Next >"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={2}
                     pageCount={pageCount}
-                    previousLabel="< previous"
+                    previousLabel="< Prev"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"

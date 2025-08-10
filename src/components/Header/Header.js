@@ -30,7 +30,7 @@ const Header = () => {
 
                     <Nav>
                         <button className='btn-login' onClick={() => { handleLogin() }}>Login</button>
-                        <button className='btn-sign-up'>Sign up</button>
+                        <button className='btn-sign-up' onClick={() => { handleLogin() }}>Sign up</button>
                         {/* <NavDropdown title="Setting" id="basic-nav-dropdown">
                             <NavDropdown.Item >Login</NavDropdown.Item>
                             <NavDropdown.Item >Log out</NavDropdown.Item>

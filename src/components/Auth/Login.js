@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.scss';
-
+import { Navigation } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 function Login() {
     const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +11,11 @@ function Login() {
         password: '',
         name: ''
     });
+
+    const navigation = useNavigate()
+    // const handleClick = () => {
+    //     alert('jiii')
+    // }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -123,11 +129,14 @@ function Login() {
                         <i className="fab fa-google"></i>
                         Google
                     </button>
-                    <button className="social-btn">
+                    <button className="social-btn" >
                         <i className="fab fa-github"></i>
                         GitHub
                     </button>
+
                 </div>
+
+
             </div>
 
             <div className="switch-form">
@@ -146,6 +155,14 @@ function Login() {
                         </button>
                     </p>
                 )}
+            </div>
+
+            <div className='back-home'>
+                <span
+                    onClick={() => navigation('/')}
+
+                >&#60;&#60; Go to homepage
+                </span>
             </div>
         </div>
     );

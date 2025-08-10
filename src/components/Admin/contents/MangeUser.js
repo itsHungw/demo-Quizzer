@@ -13,7 +13,7 @@ import { getListWithPaginate } from "../../../service/apiService";
 
 const ManageUser = () => {
 
-    const LIMIT_USER = 6;
+    const LIMIT_USER = 3;
 
     const [isShow, setIsShow] = useState(false)
     const [listUser, setListUser] = useState([])
