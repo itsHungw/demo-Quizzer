@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -5,11 +6,16 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+    const [activeTab, setActiveTab] = useState('register')
     const navigate = useNavigate();
     const handleLogin = () => {
-        navigate('/login')
+        navigate('/login', { state: { activeTab: 'register' } })
+        setActiveTab('login')
     }
-
+    const handleRegister = () => {
+        navigate('/login')
+        setActiveTab('register')
+    }
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -30,7 +36,7 @@ const Header = () => {
 
                     <Nav>
                         <button className='btn-login' onClick={() => { handleLogin() }}>Login</button>
-                        <button className='btn-sign-up' onClick={() => { handleLogin() }}>Sign up</button>
+                        <button className='btn-sign-up' onClick={() => { handleRegister() }}>Sign up</button>
                         {/* <NavDropdown title="Setting" id="basic-nav-dropdown">
                             <NavDropdown.Item >Login</NavDropdown.Item>
                             <NavDropdown.Item >Log out</NavDropdown.Item>

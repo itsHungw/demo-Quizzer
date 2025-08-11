@@ -6,7 +6,7 @@ import { postLogin, postRegister } from '../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
 
 function Login() {
-    const [activeTab, setActiveTab] = useState('login');
+    // const [activeTab, setActiveTab] = useState('login');
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     // const [formData, setFormData] = useState({
@@ -55,12 +55,17 @@ function Login() {
         }
         else {
             toast.success(data.EM)
+            setTimeout(() => {
+                navigation('/');
+                // console.log('Form submitted:', formData);
+            }, 2000);
         }
-
         setTimeout(() => {
             setIsLoading(false);
             // console.log('Form submitted:', formData);
         }, 1500);
+
+
     };
 
     const handleRegister = async (e) => {
@@ -101,6 +106,8 @@ function Login() {
             setIsLoading(false);
             // console.log('Form submitted:', formData);
         }, 1500);
+
+
     };
 
     const handleEmailChange = (event) => {
@@ -219,7 +226,7 @@ function Login() {
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     value={password}
-                                    onChange={(e) => handlePasswordChange(e)}
+                                    onChange={activeTab === 'register' ? (e) => handlePasswordChange(e) : (e) => setPassword(e.target.value)}
                                     placeholder="Password"
                                     className={`form-control${passwordError ? ' is-invalid' : ''}`}
                                     style={passwordError ? { borderColor: 'red' } : {}}
