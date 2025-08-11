@@ -2,24 +2,31 @@ import { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import { useSelector } from 'react-redux'
+import { NavDropdown } from 'react-bootstrap';
 const Header = () => {
-    const [activeTab, setActiveTab] = useState('register')
+
+    const isAuthenticated = useSelector(state => state.user.isAuthenticated);
+    const account = useSelector(state => state.user.account);
+    console.log(account, isAuthenticated)
+
+    const [activeTab, setActiveTab] = useState('register');
     const navigate = useNavigate();
+
     const handleLogin = () => {
-        navigate('/login', { state: { activeTab: 'register' } })
-        setActiveTab('login')
-    }
+        setActiveTab('login');
+        navigate('/login', { state: { activeTab: 'login' } });
+    };
+
     const handleRegister = () => {
-        navigate('/login')
-        setActiveTab('register')
-    }
+        setActiveTab('register');
+        navigate('/login', { state: { activeTab: 'register' } });
+    };
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
-                {/* <Navbar.Brand href="#home">QUIZZER</Navbar.Brand> */}
                 <NavLink className='navbar-brand' to="/">QUIZZER</NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -27,28 +34,31 @@ const Header = () => {
                         <NavLink className='nav-link' to="/">Home</NavLink>
                         <NavLink className='nav-link' to="/users">User</NavLink>
                         <NavLink className='nav-link' to="/admins">Admin</NavLink>
-
-                        {/* <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="users">User</Nav.Link>
-                        <Nav.Link href="admins">Admin</Nav.Link> */}
-
                     </Nav>
-
                     <Nav>
-                        <button className='btn-login' onClick={() => { handleLogin() }}>Login</button>
-                        <button className='btn-sign-up' onClick={() => { handleRegister() }}>Sign up</button>
-                        {/* <NavDropdown title="Setting" id="basic-nav-dropdown">
-                            <NavDropdown.Item >Login</NavDropdown.Item>
-                            <NavDropdown.Item >Log out</NavDropdown.Item>
-                            <NavDropdown.Item >Profile</NavDropdown.Item>
+                        {
+                            isAuthenticated ?
+                                <NavDropdown title="Setting" id="basic-nav-dropdown">
+                                    <NavDropdown.Item href="#action/3.1">Login</NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.2">
+                                        Log out
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.3">Profile</NavDropdown.Item>
+                                </NavDropdown>
+                                :
+                                <>
+                                    <button className='btn-login' onClick={handleLogin}>Login</button>
+                                    <button className='btn-sign-up' onClick={handleRegister}>Sign up</button>
+
+                                </>
+                        }
 
 
-                        </NavDropdown> */}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
     );
-}
+};
 
 export default Header;

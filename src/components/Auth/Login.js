@@ -1,37 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Login.scss';
-import { Navigation } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { postLogin, postRegister } from '../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+
+
 
 function Login() {
-    // const [activeTab, setActiveTab] = useState('login');
+    const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+
+    const [activeTab, setActiveTab] = useState(location.state?.activeTab || 'login');
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    // const [formData, setFormData] = useState({
-    //     email: '',
-    //     password: '',
-    //     name: ''
-    // });
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [username, setUserName] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [username, setUserName] = useState("");
 
-    const [emailError, setEmailError] = useState("");
-    const [passwordError, setPasswordError] = useState("");
-    const [usernameError, setUsernameError] = useState("");
-
+    // Update activeTab when location.state changes
+    useEffect(() => {
+        if (location.state?.activeTab) {
+            setActiveTab(location.state.activeTab);
+            // Reset form fields when switching tabs
+            setEmail('');
+            setPassword('');
+            setUserName('');
+            setEmailError('');
+            setPasswordError('');
+            setUsernameError('');
+        }
+    }, [location.state]);
 
     const validateEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     };
-
-    const navigation = useNavigate()
-    // const handleClick = () => {
-    //     alert('jiii')
-    // }
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -39,33 +47,36 @@ function Login() {
 
         let hasError = false;
         if (!validateEmail(email)) {
-            setEmailError("Email is required.");
+            setEmailError('Email is invalid.');
+            hasError = true;
+        }
+        if (!password) {
+            setPasswordError('Password is required.');
             hasError = true;
         }
         if (hasError) {
             setTimeout(() => {
                 setIsLoading(false);
-                // console.log('Form submitted:', formData);
             }, 500);
-            return
+            return;
         }
-        let data = await postLogin(email, password)
+
+        let data = await postLogin(email, password);
         if (data.EC !== 0) {
             toast.error(data.EM);
-        }
-        else {
-            toast.success(data.EM)
+        } else {
+            dispatch({
+                type: 'FETCH_USER',
+                payload: data
+            })
+            toast.success(data.EM);
             setTimeout(() => {
-                navigation('/');
-                // console.log('Form submitted:', formData);
+                navigate('/');
             }, 2000);
         }
         setTimeout(() => {
             setIsLoading(false);
-            // console.log('Form submitted:', formData);
         }, 1500);
-
-
     };
 
     const handleRegister = async (e) => {
@@ -74,79 +85,75 @@ function Login() {
 
         let hasError = false;
         if (!validateEmail(email)) {
-            setEmailError("Email is required.");
+            setEmailError('Email is invalid.');
             hasError = true;
         }
         if (!password) {
-            setPasswordError("Password is required.");
+            setPasswordError('Password is required.');
             hasError = true;
         }
-        // Validate username
         if (!username) {
-            setUsernameError("Username is required.");
+            setUsernameError('Username is required.');
             hasError = true;
         }
         if (hasError) {
             setTimeout(() => {
                 setIsLoading(false);
-                // console.log('Form submitted:', formData);
             }, 500);
-            return
+            return;
         }
-        let data = await postRegister(email, username, password)
 
+        let data = await postRegister(email, username, password);
         if (data.EC !== 0) {
             toast.error(data.EM);
+        } else {
+            toast.success(data.EM);
+            setTimeout(() => {
+                setActiveTab('login'); // Switch to login tab after successful registration
+                setEmail('');
+                setPassword('');
+                setUserName('');
+                setEmailError('');
+                setPasswordError('');
+                setUsernameError('');
+            }, 2000);
         }
-        else {
-            toast.success(data.EM)
-        }
-
         setTimeout(() => {
             setIsLoading(false);
-            // console.log('Form submitted:', formData);
         }, 1500);
-
-
     };
 
     const handleEmailChange = (event) => {
         const value = event.target.value;
         setEmail(value);
         if (!validateEmail(value)) {
-            setEmailError("Email is invalid.");
+            setEmailError('Email is invalid.');
         } else {
-            setEmailError("");
+            setEmailError('');
         }
     };
+
     const handleNameChange = (event) => {
         const value = event.target.value;
         setUserName(value);
         if (value.length > 0) {
-            setUsernameError("");
+            setUsernameError('');
         }
     };
 
     const handlePasswordChange = (event) => {
         const value = event.target.value;
         setPassword(value);
-        if (value.length < 5) {
-            setPasswordError("Password must longer than 4 characters");
+        if (activeTab === 'register' && value.length < 5) {
+            setPasswordError('Password must be longer than 4 characters');
         } else {
-            setPasswordError("");
-
+            setPasswordError('');
         }
     };
-    // const handleInputChange = (field, value) => {
-    //     setFormData(prev => ({ ...prev, [field]: value }));
-    // };
 
     return (
         <>
-            <Toaster
-                position="top-center"
-                reverseOrder={false} />
-
+            <Toaster position="top-center" reverseOrder={false} />
             <div className="login-container">
                 <div className="login-card">
                     <div className="login-header">
@@ -155,9 +162,8 @@ function Login() {
                         </h1>
                         <p className="login-subtitle">
                             {activeTab === 'login'
-                                ? 'Welcome back '
-                                : 'Create new account ?'
-                            }
+                                ? 'Welcome back'
+                                : 'Create new account'}
                         </p>
                     </div>
 
@@ -165,13 +171,13 @@ function Login() {
                         <button
                             className={`tab-btn ${activeTab === 'login' ? 'active' : ''}`}
                             onClick={() => {
-                                setActiveTab('login')
-                                setEmail('')
-                                setPassword('')
-                                setUserName('')
-                                setEmailError('')
-                                setPasswordError('')
-
+                                setActiveTab('login');
+                                setEmail('');
+                                setPassword('');
+                                setUserName('');
+                                setEmailError('');
+                                setPasswordError('');
+                                setUsernameError('');
                             }}
                         >
                             Login
@@ -179,13 +185,13 @@ function Login() {
                         <button
                             className={`tab-btn ${activeTab === 'register' ? 'active' : ''}`}
                             onClick={() => {
-                                setActiveTab('register')
-                                setEmail('')
-                                setPassword('')
-                                setUserName('')
-                                setEmailError('')
-                                setUsernameError('')
-                                setPasswordError('')
+                                setActiveTab('register');
+                                setEmail('');
+                                setPassword('');
+                                setUserName('');
+                                setEmailError('');
+                                setPasswordError('');
+                                setUsernameError('');
                             }}
                         >
                             Sign up
@@ -200,9 +206,8 @@ function Login() {
                                     value={username}
                                     className={`form-control${usernameError ? ' is-invalid' : ''}`}
                                     style={usernameError ? { borderColor: 'red' } : {}}
-                                    onChange={(e) => handleNameChange(e)}
+                                    onChange={handleNameChange}
                                     placeholder="Full name"
-                                // required
                                 />
                                 {usernameError && <div style={{ color: 'red', fontSize: '13px' }}>{usernameError}</div>}
                             </div>
@@ -214,9 +219,8 @@ function Login() {
                                 value={email}
                                 className={`form-control${emailError ? ' is-invalid' : ''}`}
                                 style={emailError ? { borderColor: 'red' } : {}}
-                                onChange={(e) => handleEmailChange(e)}
+                                onChange={handleEmailChange}
                                 placeholder="Email"
-                            // required
                             />
                             {emailError && <div style={{ color: 'red', fontSize: '13px' }}>{emailError}</div>}
                         </div>
@@ -226,13 +230,12 @@ function Login() {
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     value={password}
-                                    onChange={activeTab === 'register' ? (e) => handlePasswordChange(e) : (e) => setPassword(e.target.value)}
+                                    onChange={handlePasswordChange}
                                     placeholder="Password"
                                     className={`form-control${passwordError ? ' is-invalid' : ''}`}
                                     style={passwordError ? { borderColor: 'red' } : {}}
                                 />
                                 {passwordError && <div style={{ color: 'red', fontSize: '13px' }}>{passwordError}</div>}
-
                                 <button
                                     type="button"
                                     className="password-toggle"
@@ -262,21 +265,20 @@ function Login() {
                         </button>
                     </form>
 
-                    <div className="divider" style={{ display: 'flex', justifyContent: "center" }}>Or</div>
+                    <div className="divider" style={{ display: 'flex', justifyContent: 'center' }}>
+                        Or
+                    </div>
 
                     <div className="social-login">
                         <button className="social-btn">
                             <i className="fab fa-google"></i>
                             Google
                         </button>
-                        <button className="social-btn" >
+                        <button className="social-btn">
                             <i className="fab fa-github"></i>
                             GitHub
                         </button>
-
                     </div>
-
-
                 </div>
 
                 <div className="switch-form">
@@ -297,16 +299,13 @@ function Login() {
                     )}
                 </div>
 
-                <div className='back-home'>
-                    <span
-                        onClick={() => navigation('/')}
-
-                    >&#60;&#60; Go to homepage
+                <div className="back-home">
+                    <span onClick={() => navigate('/')}>
+                        &#60;&#60; Go to homepage
                     </span>
                 </div>
             </div>
         </>
-
     );
 }
 
