@@ -1,6 +1,7 @@
 
 import { data } from 'autoprefixer';
 import { INCREMENT, DECREMENT } from '../action/counterAction';
+import { FETCH_USER } from '../action/userAction';
 const INITIAL_STATE = {
     account: {
         access_token: '',
@@ -14,7 +15,7 @@ const INITIAL_STATE = {
 };
 const userReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'FETCH_USER':
+        case FETCH_USER:
             console.log(action)
             return {
                 ...state, account: {

@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { postLogin, postRegister } from '../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
+import { doLogin } from '../../redux/action/userAction';
 
 
 
@@ -65,10 +66,7 @@ function Login() {
         if (data.EC !== 0) {
             toast.error(data.EM);
         } else {
-            dispatch({
-                type: 'FETCH_USER',
-                payload: data
-            })
+            dispatch(doLogin(data))
             toast.success(data.EM);
             setTimeout(() => {
                 navigate('/');
