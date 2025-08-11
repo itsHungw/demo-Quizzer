@@ -9,7 +9,7 @@ const Header = () => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const account = useSelector(state => state.user.account);
-    console.log(account, isAuthenticated)
+    // console.log(account, isAuthenticated)
 
     const [activeTab, setActiveTab] = useState('register');
     const navigate = useNavigate();

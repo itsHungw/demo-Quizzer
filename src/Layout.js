@@ -14,6 +14,7 @@ import ManageUser from './components/Admin/contents/MangeUser';
 import Login from './components/Auth/Login';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import ListQuiz from './components/User/ListQuiz';
 
 const Layout = () => {
     return (
@@ -21,7 +22,7 @@ const Layout = () => {
             <Routes>
                 <Route path="/" element={<App />} >
                     <Route index element={<HomePage />} />
-                    <Route path="users" element={<UserPage />} />
+                    <Route path="users" element={<ListQuiz />} />
                 </Route>
                 <Route path="/admins" element={<AdminPage />} >
                     <Route index element={<DashBoard />} />
