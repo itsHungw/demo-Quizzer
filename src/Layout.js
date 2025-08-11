@@ -15,6 +15,16 @@ import Login from './components/Auth/Login';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ListQuiz from './components/User/ListQuiz';
+import DetailQuiz from './components/User/DetailQuiz';
+
+
+const NotFound = () => {
+    return (
+        <div className='container mt-3 alert alert-danger'>
+            404. Your URL not found any data
+        </div>
+    )
+}
 
 const Layout = () => {
     return (
@@ -24,11 +34,16 @@ const Layout = () => {
                     <Route index element={<HomePage />} />
                     <Route path="users" element={<ListQuiz />} />
                 </Route>
+
+                <Route path="/quiz/:id" element={<DetailQuiz />} />
+
                 <Route path="/admins" element={<AdminPage />} >
                     <Route index element={<DashBoard />} />
                     <Route path="manage-users" element={<ManageUser />} />
                 </Route>
                 <Route path="/login" element={<Login />} />
+                <Route path="*" element={<NotFound />} />
+
             </Routes>
         </>
     )

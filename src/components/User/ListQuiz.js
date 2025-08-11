@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react'
 import './ListQuiz.scss'
 import { getQuizByUser } from '../../service/apiService';
+import { useNavigate } from 'react-router-dom';
+
 
 const ListQuiz = (props) => {
     const [arrQuiz, setArrayQuiz] = useState([]);
     useEffect(() => {
         getQuizData()
     }, []);
-
+    const navigate = useNavigate()
     const getQuizData = async () => {
         let data = await getQuizByUser()
         console.log('check data', data)
@@ -26,7 +28,11 @@ const ListQuiz = (props) => {
                             <div className="card-body">
                                 <h5 className="card-title">Quiz {index + 1}</h5>
                                 <p className="card-text">{quiz.description}</p>
-                                <button className="btn btn-primary">Start now</button>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => navigate(`/quiz/${index + 1}`)}
+                                >Start now
+                                </button>
                             </div>
                         </div>
                     )
