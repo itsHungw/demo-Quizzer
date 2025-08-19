@@ -30,7 +30,7 @@ const ListQuiz = (props) => {
                                 <p className="card-text">{quiz.description}</p>
                                 <button
                                     className="btn btn-primary"
-                                    onClick={() => navigate(`/quiz/${index + 1}`)}
+                                    onClick={() => navigate(`/quiz/${index + 1}`, { state: { title: quiz.description } })}
                                 >Start now
                                 </button>
                             </div>
@@ -43,7 +43,6 @@ const ListQuiz = (props) => {
                     You don't have any quiz now
                 </div>
             }
-
         </div>
     )
 }
