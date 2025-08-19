@@ -1,15 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom"
 import { getQuizById } from "../../service/apiService";
 import _ from "lodash";
 import { data } from "autoprefixer";
 import './DetailQuiz.scss'
+import Question from "./Question";
 
 const DetailQuiz = (props) => {
     const params = useParams()
     const location = useLocation();
     // console.log(location)
     const quizId = params.id;
+    const [dataQuiz, setDataQuiz] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    const handlePrev = () => {
+        if (currentIndex - 1 < 0) return;
+        setCurrentIndex(+currentIndex - 1)
+    }
+
+    const handleNext = () => {
+        if (currentIndex + 1 < dataQuiz.length)
+            setCurrentIndex(+currentIndex + 1)
+
+    }
 
     useEffect(() => {
         fetchQuiz()
@@ -40,6 +54,8 @@ const DetailQuiz = (props) => {
                 })
                 .value();
             console.log('data', data)
+            setDataQuiz(data)
+            console.log('check data', dataQuiz)
         }
     }
     return (
@@ -55,21 +71,29 @@ const DetailQuiz = (props) => {
                 </div>
 
                 <div className="quiz-content">
-                    <div className="question">
-                        Question 1: hiadfhoiaf?
-                    </div>
-                    <div className="answer">
-                        <div className="a-child">A. adjf</div>
-                        <div className="a-child">B. adjf</div>
-                        <div className="a-child">C. adjf</div>
-                        <div className="a-child">D. adjf</div>
-
-                    </div>
+                    <Question
+                        index={currentIndex}
+                        data={
+                            dataQuiz && dataQuiz.length > 0
+                                ?
+                                dataQuiz[currentIndex]
+                                : []
+                        }
+                    />
                 </div>
 
                 <div className="footer">
-                    <button className="btn-secondary">Prev</button>
-                    <button className="btn-primary">Next</button>
+                    <button
+                        className="btn-secondary"
+                        onClick={() => handlePrev()}
+                    >Prev
+                    </button>
+                    <button
+                        className="btn-primary"
+
+                        onClick={() => handleNext()}
+                    >Next
+                    </button>
                 </div>
             </div>
 
