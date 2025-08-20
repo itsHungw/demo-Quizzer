@@ -12,6 +12,15 @@ const Question = (props) => {
         )
     }
 
+    const handleCheckBox = (event, aId, qId) => {
+        let value = event.target.checked;
+        props.handleCheckBox(aId, qId)
+        console.log(+aId, +qId)
+    }
+
+    // console.log('darata', data.questionId)
+
+
     return (
         <>
 
@@ -33,7 +42,12 @@ const Question = (props) => {
                                 key={`answer-${index}`}
                                 className="a-child">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" />
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        checked={ans.isSelected}
+                                        onChange={(event) => { handleCheckBox(event, ans.id, data.questionId) }}
+                                    />
                                     <label class="form-check-label" >
                                         {ans.description}
                                     </label>

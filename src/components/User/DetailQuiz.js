@@ -25,6 +25,28 @@ const DetailQuiz = (props) => {
 
     }
 
+
+    const handleCheckBox = (answerId, questionId) => {
+        let dataQuizClone = _.cloneDeep(dataQuiz)
+        let question = dataQuizClone.find(item => +questionId === +item.questionId)
+        if (question && question.answer) {
+            // console.log('questo', question.answer)
+            let b = question.answer.map(item => {
+                if (+answerId === +item.id) {
+                    item.isSelected = !item.isSelected;
+                }
+                return item
+            })
+            // console.log('new', b)
+            question.answer = b;
+        }
+        let index = dataQuizClone.findIndex(item => +questionId === +item.questionId)
+        if (index > -1) {
+            dataQuiz[index] = question
+            setDataQuiz(dataQuizClone)
+        }
+        console.log(dataQuiz)
+    }
     useEffect(() => {
         fetchQuiz()
     }, [quizId])
@@ -32,7 +54,7 @@ const DetailQuiz = (props) => {
     const fetchQuiz = async () => {
         let res = await getQuizById(quizId);
 
-        console.log('res ', res)
+        // console.log('res ', res)
         if (res && res.EC === 0) {
             let raw = res.DT;
             let data = _.chain(raw)
@@ -47,15 +69,17 @@ const DetailQuiz = (props) => {
                             questionDescription = item.description;
                             image = item.image
                         }
+                        item.answers.isSelected = false;
                         answer.push(item.answers);
-                        console.log('answer', item.answers)
+                        // console.log('answer', item.answers)
                     })
                     return { questionId: key, answer, questionDescription, image }
                 })
                 .value();
-            console.log('data', data)
+            // console.log('data', data)
             setDataQuiz(data)
-            console.log('check data', dataQuiz)
+
+            // console.log('check data', data.answers.isSelected)
         }
     }
     return (
@@ -73,6 +97,8 @@ const DetailQuiz = (props) => {
                 <div className="quiz-content">
                     <Question
                         index={currentIndex}
+                        handleCheckBox={handleCheckBox}
+                        // answer={data.answers.isSelected}
                         data={
                             dataQuiz && dataQuiz.length > 0
                                 ?
