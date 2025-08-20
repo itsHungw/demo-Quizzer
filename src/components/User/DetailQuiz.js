@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom"
-import { getQuizById } from "../../service/apiService";
+import { getQuizById, postSubmitQuiz } from "../../service/apiService";
 import _ from "lodash";
 import { data } from "autoprefixer";
 import './DetailQuiz.scss'
@@ -84,7 +84,7 @@ const DetailQuiz = (props) => {
     }
 
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         //         {
         //     "quizId": 1,
@@ -104,31 +104,34 @@ const DetailQuiz = (props) => {
 
         let payload = {
             quizId: +quizId,
-            answer: []
+            answers: []
         }
 
         let answers = []
         if (dataQuiz && dataQuiz.length > 0) {
             dataQuiz.forEach(item => {
                 let questionId = item.questionId;
-                let answerId = [];
+                let userAnswerId = [];
 
                 item.answer.forEach(a => {
                     if (a.isSelected)
-                        answerId.push(a.id)
+                        userAnswerId.push(a.id)
                 })
 
                 answers.push({
                     questionId: +questionId,
-                    answerId: answerId
+                    userAnswerId: userAnswerId
                 })
 
 
             })
-            payload.answer = answers;
+            payload.answers = answers;
 
             console.log(payload)
+            let res = await postSubmitQuiz(payload);
+            console.log(res)
         }
+
     }
 
 
