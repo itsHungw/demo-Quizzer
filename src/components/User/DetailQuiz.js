@@ -82,6 +82,56 @@ const DetailQuiz = (props) => {
             // console.log('check data', data.answers.isSelected)
         }
     }
+
+
+    const handleSubmit = () => {
+
+        //         {
+        //     "quizId": 1,
+        //     "answers": [
+        //         { 
+        //             "questionId": 1,
+        //             "userAnswerId": [3]
+        //         },
+        //         { 
+        //             "questionId": 2,
+        //             "userAnswerId": [6]
+        //         }
+        //     ]
+        // }
+
+        // console.log(dataQuiz)
+
+        let payload = {
+            quizId: +quizId,
+            answer: []
+        }
+
+        let answers = []
+        if (dataQuiz && dataQuiz.length > 0) {
+            dataQuiz.forEach(item => {
+                let questionId = item.questionId;
+                let answerId = [];
+
+                item.answer.forEach(a => {
+                    if (a.isSelected)
+                        answerId.push(a.id)
+                })
+
+                answers.push({
+                    questionId: +questionId,
+                    answerId: answerId
+                })
+
+
+            })
+            payload.answer = answers;
+
+            console.log(payload)
+        }
+    }
+
+
     return (
         <div className="detail-quiz-container">
 
@@ -98,6 +148,7 @@ const DetailQuiz = (props) => {
                     <Question
                         index={currentIndex}
                         handleCheckBox={handleCheckBox}
+
                         // answer={data.answers.isSelected}
                         data={
                             dataQuiz && dataQuiz.length > 0
@@ -109,17 +160,28 @@ const DetailQuiz = (props) => {
                 </div>
 
                 <div className="footer">
-                    <button
-                        className="btn-secondary"
-                        onClick={() => handlePrev()}
-                    >Prev
-                    </button>
-                    <button
-                        className="btn-primary"
+                    <div>
+                        <button
+                            className="btn-secondary"
+                            onClick={() => handlePrev()}
+                        >Prev
+                        </button>
+                        <button
+                            className="btn-primary"
 
-                        onClick={() => handleNext()}
-                    >Next
-                    </button>
+                            onClick={() => handleNext()}
+                        >Next
+                        </button>
+                    </div>
+
+                    <div className="submit-btn">
+                        <button
+                            className="btn btn-warning "
+                            onClick={() => handleSubmit()}
+                        >Submit
+                        </button>
+                    </div>
+
                 </div>
             </div>
 

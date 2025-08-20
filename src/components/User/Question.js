@@ -18,6 +18,8 @@ const Question = (props) => {
         console.log(+aId, +qId)
     }
 
+
+
     // console.log('darata', data.questionId)
 
 
