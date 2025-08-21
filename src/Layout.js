@@ -16,6 +16,7 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import ListQuiz from './components/User/ListQuiz';
 import DetailQuiz from './components/User/DetailQuiz';
+import QuizzesManage from './components/Admin/contents/Quiz/QuizzesMange';
 
 
 const NotFound = () => {
@@ -40,6 +41,8 @@ const Layout = () => {
                 <Route path="/admins" element={<AdminPage />} >
                     <Route index element={<DashBoard />} />
                     <Route path="manage-users" element={<ManageUser />} />
+                    <Route path="manage-quizzes" element={<QuizzesManage />} />
+
                 </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="*" element={<NotFound />} />

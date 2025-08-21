@@ -16,11 +16,11 @@ import { SiQualcomm } from "react-icons/si";
 import { MdDashboard } from "react-icons/md";
 
 import './SideBar.scss';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
+    const navigate = useNavigate()
     return (
         <>
             <ProSidebar
@@ -45,7 +45,7 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
                         }}
                     >
                         <SiQualcomm size={'2em'} color='#025df1ff' />
-                        <span>QUIZZER</span>
+                        <span onClick={() => { navigate('/') }}>QUIZZER</span>
                     </div>
                 </SidebarHeader>
 
@@ -67,8 +67,11 @@ const SideBar = ({ image, collapsed, toggled, handleToggleSidebar }) => {
                             title={"Feature"}
                         // icon={<FaRegLaughWink />}
                         >
-                            <MenuItem>User management<Link to="manage-users" /></MenuItem>
-                            <MenuItem>Quiz test management<Link to="/" /></MenuItem>
+                            <MenuItem>
+                                User management
+                                <Link to="manage-users" />
+                            </MenuItem>
+                            <MenuItem>Quiz test management<Link to="manage-quizzes" /></MenuItem>
                             <MenuItem>Question management<Link to="/" /></MenuItem>
                         </SubMenu>
 
