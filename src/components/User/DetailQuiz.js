@@ -5,6 +5,7 @@ import _ from "lodash";
 import { data } from "autoprefixer";
 import './DetailQuiz.scss'
 import Question from "./Question";
+import ModalResult from "./ModalResult";
 
 const DetailQuiz = (props) => {
     const params = useParams()
@@ -13,6 +14,8 @@ const DetailQuiz = (props) => {
     const quizId = params.id;
     const [dataQuiz, setDataQuiz] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    const [isShowModal, setIsShowModal] = useState(false)
 
     const handlePrev = () => {
         if (currentIndex - 1 < 0) return;
@@ -131,7 +134,7 @@ const DetailQuiz = (props) => {
             let res = await postSubmitQuiz(payload);
             console.log(res)
         }
-
+        setIsShowModal(true)
     }
 
 
@@ -191,6 +194,12 @@ const DetailQuiz = (props) => {
             <div className="left-content">
                 count down
             </div>
+
+            <ModalResult
+                show={isShowModal}
+                setShow={setIsShowModal}
+
+            />
         </div>
     )
 }
