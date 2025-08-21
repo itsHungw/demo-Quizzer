@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './QuizManage.scss'
 import Select from 'react-select';
+import { postAddNewQuiz } from '../../../../service/apiService';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -24,8 +26,31 @@ const QuizzesManage = () => {
             setImage(event.target.files[0])
         }
     }
+
+    const handleSubmitQuiz = async () => {
+        let resp = await postAddNewQuiz(quizDescription, quizName, quizType?.value, image)
+        console.log(resp)
+        if (!quizName || !quizDescription) {
+            toast.error("Quiz name and description are required!");
+            return
+        }
+
+        if (resp.EC < 0) {
+            toast.error(resp.EM);
+        }
+        else {
+            toast.success(resp.EM)
+            setQuizName('')
+            setQuizDescription('')
+            setImage('')
+            setQuizType('EASY')
+        }
+    }
     return (
         <div className="quiz-manage-container">
+            <Toaster
+                position="top-center"
+                reverseOrder={false} />
             <div className="title">
                 Manage Quizzes
             </div>
@@ -54,8 +79,10 @@ const QuizzesManage = () => {
                     <div className='select-type my-3'>
                         <Select
                             value={quizType}
+                            defaultValue={quizType}
                             onChange={setQuizType}
                             options={options}
+                            placeholder={'Quiz type...'}
                         />
                     </div>
 
@@ -65,6 +92,13 @@ const QuizzesManage = () => {
                             type='file'
                             className='form-control'
                             onChange={(event) => { handleFileChange(event) }} />
+                    </div>
+                    <div>
+                        <button
+                            className='btn btn-warning mt-3'
+                            onClick={() => handleSubmitQuiz()}
+                        >Save
+                        </button>
                     </div>
                 </fieldset>
             </div>

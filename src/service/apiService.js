@@ -54,6 +54,15 @@ const postSubmitQuiz = (data) => {
 
     return axios.post("api/v1/quiz-submit", { ...data })
 }
+const postAddNewQuiz = (description, name, difficulty, quizImage) => {
+    const formData = new FormData();
+    formData.append('description', description);
+    formData.append('name', name);
+    formData.append('difficulty', difficulty);
+    formData.append('quizImage', quizImage);
+
+    return axios.post("api/v1/quiz", formData)
+}
 
 export {
     postCreateNewUser,
@@ -65,5 +74,6 @@ export {
     postRegister,
     getQuizByUser,
     getQuizById,
-    postSubmitQuiz
+    postSubmitQuiz,
+    postAddNewQuiz
 }
