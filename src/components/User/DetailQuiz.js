@@ -16,7 +16,7 @@ const DetailQuiz = (props) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const [isShowModal, setIsShowModal] = useState(false)
-
+    const [res, setRes] = useState({})
     const handlePrev = () => {
         if (currentIndex - 1 < 0) return;
         setCurrentIndex(+currentIndex - 1)
@@ -133,6 +133,10 @@ const DetailQuiz = (props) => {
             console.log(payload)
             let res = await postSubmitQuiz(payload);
             console.log(res)
+            setRes({
+                countCorrect: res.DT.countCorrect,
+                countTotal: res.DT.countTotal
+            })
         }
         setIsShowModal(true)
     }
@@ -198,7 +202,7 @@ const DetailQuiz = (props) => {
             <ModalResult
                 show={isShowModal}
                 setShow={setIsShowModal}
-
+                res={res}
             />
         </div>
     )
