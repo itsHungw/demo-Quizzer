@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './QuizManage.scss'
 import Select from 'react-select';
-import { postAddNewQuiz } from '../../../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
+import QuizTable from './QuizTable';
+import { deleteQuiz, getAllQuiz, postAddNewQuiz } from '../../../../service/apiService';
+import QuizModalDelete from './QuizModalDelete';
+
 
 
 
@@ -17,8 +20,29 @@ const QuizzesManage = () => {
     const [quizDescription, setQuizDescription] = useState('');
     const [quizType, setQuizType] = useState('EASY');
     const [image, setImage] = useState(null)
+    const [dataQuiz, setDataQuiz] = useState()
+    const [isShowDelete, setShowDelete] = useState(false)
+    const [listQuiz, setListQuiz] = useState([]);
 
 
+
+    useEffect(() => {
+        fetchListQuiz()
+    }, [])
+
+    const fetchListQuiz = async () => {
+        let res = await getAllQuiz();
+        console.log('quiz', res)
+        setListQuiz(res.DT)
+    }
+
+
+    const handleClickDelete = async (quiz) => {
+        setDataQuiz(quiz);
+        // console.log("del", quiz.id)
+        setShowDelete(true)
+
+    }
 
     const handleFileChange = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
@@ -27,13 +51,24 @@ const QuizzesManage = () => {
         }
     }
 
+    const handleDelete = async () => {
+        let res = await deleteQuiz(dataQuiz.id)
+        if (res.EC < 0) {
+            toast.error(res.EM);
+        } else {
+            toast.success(res.EM)
+            setShowDelete(false)
+            await fetchListQuiz()
+        }
+    }
+
     const handleSubmitQuiz = async () => {
-        let resp = await postAddNewQuiz(quizDescription, quizName, quizType?.value, image)
-        console.log(resp)
         if (!quizName || !quizDescription) {
             toast.error("Quiz name and description are required!");
             return
         }
+        let resp = await postAddNewQuiz(quizDescription, quizName, quizType?.value, image)
+        console.log(resp)
 
         if (resp.EC < 0) {
             toast.error(resp.EM);
@@ -44,6 +79,8 @@ const QuizzesManage = () => {
             setQuizDescription('')
             setImage('')
             setQuizType('EASY')
+            await fetchListQuiz()
+
         }
     }
     return (
@@ -103,8 +140,19 @@ const QuizzesManage = () => {
                 </fieldset>
             </div>
             <div className="quiz-table">
-                table
+                <QuizTable
+                    handleClickDelete={handleClickDelete}
+                    dataQuiz={dataQuiz}
+                    listQuiz={listQuiz}
+                />
             </div>
+
+            <QuizModalDelete
+                show={isShowDelete}
+                setShow={setShowDelete}
+                dataQuiz={dataQuiz}
+                handleDelete={handleDelete}
+            />
         </div>
     )
 }

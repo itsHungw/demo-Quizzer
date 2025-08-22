@@ -64,6 +64,13 @@ const postAddNewQuiz = (description, name, difficulty, quizImage) => {
     return axios.post("api/v1/quiz", formData)
 }
 
+const getAllQuiz = () => {
+    return axios.get('api/v1/quiz/all')
+}
+
+const deleteQuiz = (id) => {
+    return axios.delete(`api/v1/quiz/${id}`)
+}
 export {
     postCreateNewUser,
     getAllUser,
@@ -75,5 +82,7 @@ export {
     getQuizByUser,
     getQuizById,
     postSubmitQuiz,
-    postAddNewQuiz
+    postAddNewQuiz,
+    getAllQuiz,
+    deleteQuiz
 }
