@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 
 const QuizTable = (props) => {
-    const { handleClickDelete, dataQuiz, listQuiz } = props
+    const { handleClickDelete, handleClickEdit, dataQuiz, listQuiz } = props
 
     return (
         <table class="table table-striped">
@@ -30,7 +30,7 @@ const QuizTable = (props) => {
                             <div style={{ display: 'flex', gap: '15px' }}>
                                 <button
                                     className='btn btn-warning'
-
+                                    onClick={() => handleClickEdit(quiz)}
                                 >Edit
                                 </button>
 

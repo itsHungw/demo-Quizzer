@@ -3,8 +3,9 @@ import './QuizManage.scss'
 import Select from 'react-select';
 import toast, { Toaster } from 'react-hot-toast';
 import QuizTable from './QuizTable';
-import { deleteQuiz, getAllQuiz, postAddNewQuiz } from '../../../../service/apiService';
+import { deleteQuiz, getAllQuiz, postAddNewQuiz, putUpdateQuiz } from '../../../../service/apiService';
 import QuizModalDelete from './QuizModalDelete';
+import QuizModalEdit from './QuizModalEdit';
 
 
 
@@ -21,8 +22,9 @@ const QuizzesManage = () => {
     const [quizType, setQuizType] = useState('EASY');
     const [image, setImage] = useState(null)
     const [dataQuiz, setDataQuiz] = useState()
-    const [isShowDelete, setShowDelete] = useState(false)
     const [listQuiz, setListQuiz] = useState([]);
+    const [isShowDelete, setShowDelete] = useState(false)
+    const [isShowEdit, setShowEdit] = useState(false)
 
 
 
@@ -37,19 +39,27 @@ const QuizzesManage = () => {
     }
 
 
-    const handleClickDelete = async (quiz) => {
+    const handleClickDelete = (quiz) => {
         setDataQuiz(quiz);
         // console.log("del", quiz.id)
         setShowDelete(true)
 
     }
 
+    const handleClickEdit = (quiz) => {
+        setDataQuiz(quiz);
+        // console.log("del", quiz.id)
+        setShowEdit(true)
+
+    }
     const handleFileChange = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
             // setPreviewImage(URL.createObjectURL(event.target.files[0]))
             setImage(event.target.files[0])
         }
     }
+
+
 
     const handleDelete = async () => {
         let res = await deleteQuiz(dataQuiz.id)
@@ -141,6 +151,7 @@ const QuizzesManage = () => {
             </div>
             <div className="quiz-table">
                 <QuizTable
+                    handleClickEdit={handleClickEdit}
                     handleClickDelete={handleClickDelete}
                     dataQuiz={dataQuiz}
                     listQuiz={listQuiz}
@@ -152,6 +163,13 @@ const QuizzesManage = () => {
                 setShow={setShowDelete}
                 dataQuiz={dataQuiz}
                 handleDelete={handleDelete}
+            />
+
+            <QuizModalEdit
+                show={isShowEdit}
+                setShow={setShowEdit}
+                dataQuiz={dataQuiz}
+                fetchListQuiz={fetchListQuiz}
             />
         </div>
     )

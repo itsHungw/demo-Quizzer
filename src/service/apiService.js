@@ -71,6 +71,17 @@ const getAllQuiz = () => {
 const deleteQuiz = (id) => {
     return axios.delete(`api/v1/quiz/${id}`)
 }
+const putUpdateQuiz = (id, description, name, difficulty, quizImage) => {
+    const formData = new FormData();
+    formData.append('id', id);
+
+    formData.append('description', description);
+    formData.append('name', name);
+    formData.append('difficulty', difficulty);
+    formData.append('quizImage', quizImage);
+
+    return axios.put('api/v1/quiz', formData)
+}
 export {
     postCreateNewUser,
     getAllUser,
@@ -84,5 +95,6 @@ export {
     postSubmitQuiz,
     postAddNewQuiz,
     getAllQuiz,
-    deleteQuiz
+    deleteQuiz,
+    putUpdateQuiz
 }
