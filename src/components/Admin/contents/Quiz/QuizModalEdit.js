@@ -1,5 +1,5 @@
 
-import axios from 'axios';
+
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -68,7 +68,7 @@ const QuizModalEdit = (props) => {
         let hasError = false;
 
         if (!name) {
-            setNameError("Email is required.");
+            setNameError("Quiz name is required.");
             hasError = true;
         }
         // Validate password
@@ -77,8 +77,8 @@ const QuizModalEdit = (props) => {
         //     hasError = true;
         // }
         // Validate username
-        if (!username) {
-            setUsernameError("Username is required.");
+        if (!description) {
+            setUsernameError("Description is required.");
             hasError = true;
         }
         if (hasError) return;
@@ -117,28 +117,28 @@ const QuizModalEdit = (props) => {
                             <input
 
                                 type="text"
-                                className='form-control'
-                                // className={`form-control${emailError ? ' is-invalid' : ''}`}
+                                // className='form-control'
+                                className={`form-control${nameError ? ' is-invalid' : ''}`}
                                 id="inputEmail4"
                                 value={name}
                                 onChange={(event) => setName(event.target.value)}
-                            // style={emailError ? { borderColor: 'red' } : {}}
+                                style={nameError ? { borderColor: 'red' } : {}}
                             />
-                            {/* {emailError && <div style={{ color: 'red', fontSize: '13px' }}>{emailError}</div>} */}
+                            {nameError && <div style={{ color: 'red', fontSize: '13px' }}>{nameError}</div>}
                         </div>
                         <div className="col-md-12">
                             <label htmlFor="inputPassword4" className="form-label">Description</label>
                             <input
-                                className='form-control'
+                                // className='form-control'
                                 type="text"
-                                // className={`form-control${passwordError ? ' is-invalid' : ''}`}
+                                className={`form-control${descriptionError ? ' is-invalid' : ''}`}
                                 id="inputPassword4"
                                 value={description}
                                 onChange={(event) => setDescription(event.target.value)}
 
-                            // style={passwordError ? { borderColor: 'red' } : {}}
+                                style={descriptionError ? { borderColor: 'red' } : {}}
                             />
-                            {/* {passwordError && <div style={{ color: 'red', fontSize: '13px' }}>{passwordError}</div>} */}
+                            {descriptionError && <div style={{ color: 'red', fontSize: '13px' }}>{descriptionError}</div>}
                         </div>
 
 
