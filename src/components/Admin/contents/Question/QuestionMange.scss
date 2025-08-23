@@ -7,7 +7,7 @@
         font-weight: 600;
     }
 
-    .question-content {
+    .questions-content {
         display: flex;
         gap: 15px;
 
@@ -20,11 +20,22 @@
 
             .label-upload {
                 height: 30px;
-                border: 1px solid red;
+                // border: 1px solid blue;
                 border-radius: 5px;
                 padding: 0 10px;
                 margin-right: 5px;
                 cursor: pointer;
+
+            }
+
+            .upload-icon {
+                font-size: 22px;
+                margin-right: 5px;
+                color: rebeccapurple;
+
+                &:hover {
+                    opacity: 0.7;
+                }
             }
         }
 
@@ -33,13 +44,13 @@
 
             .icon-add {
                 font-size: 30px;
-                color: green;
+                color: rgb(4, 0, 255);
                 cursor: pointer;
             }
 
             .icon-remove {
                 margin-left: 10px;
-                font-size: 30px;
+                font-size: 25px;
                 color: red;
                 cursor: pointer;
             }
@@ -62,16 +73,16 @@
         width: 60%;
     }
 
-    .btn-group {
+    .btn-groups {
         .icon-add {
             font-size: 30px;
-            color: green;
+            color: rgb(4, 0, 255);
             cursor: pointer;
         }
 
         .icon-remove {
             margin-left: 10px;
-            font-size: 30px;
+            font-size: 25px;
             color: red;
             cursor: pointer;
         }
