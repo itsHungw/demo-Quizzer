@@ -17,6 +17,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import ListQuiz from './components/User/ListQuiz';
 import DetailQuiz from './components/User/DetailQuiz';
 import QuizzesManage from './components/Admin/contents/Quiz/QuizzesMange';
+import Question from './components/User/Question';
+import QuestionManage from './components/Admin/contents/Question/QuestionManage';
 
 
 const NotFound = () => {
@@ -42,6 +44,8 @@ const Layout = () => {
                     <Route index element={<DashBoard />} />
                     <Route path="manage-users" element={<ManageUser />} />
                     <Route path="manage-quizzes" element={<QuizzesManage />} />
+                    <Route path="manage-questions" element={<QuestionManage />} />
+
 
                 </Route>
                 <Route path="/login" element={<Login />} />
