@@ -151,7 +151,11 @@ const DetailQuiz = (props) => {
                 </div>
 
                 <div className="quiz-body">
-                    <img />
+                    {dataQuiz[currentIndex] && dataQuiz[currentIndex].image
+                        ?
+                        <img src={`data:image/png;base64,${dataQuiz[currentIndex].image}`} className="card-img-top" alt="..." />
+                        : ''
+                    }
                 </div>
 
                 <div className="quiz-content">

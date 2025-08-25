@@ -7,6 +7,8 @@ import { deleteQuiz, getAllQuiz, postAddNewQuiz, putUpdateQuiz } from '../../../
 import QuizModalDelete from './QuizModalDelete';
 import QuizModalEdit from './QuizModalEdit';
 import Accordion from 'react-bootstrap/Accordion';
+import UpdateQAQuiz from './UpdateQAQuiz';
+import AssignUser from './AssignUser';
 
 
 
@@ -152,18 +154,31 @@ const QuizzesManage = () => {
                                     </button>
                                 </div>
                             </fieldset>
+                            <div className="quiz-table">
+                                <QuizTable
+                                    handleClickEdit={handleClickEdit}
+                                    handleClickDelete={handleClickDelete}
+                                    dataQuiz={dataQuiz}
+                                    listQuiz={listQuiz}
+                                />
+                            </div>
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="1">
+                        <Accordion.Header>Update Q/A Quizzes</Accordion.Header>
+                        <Accordion.Body>
+                            <UpdateQAQuiz />
+                        </Accordion.Body>
+                    </Accordion.Item>
+                    <Accordion.Item eventKey="2">
+                        <Accordion.Header>Assign to user</Accordion.Header>
+                        <Accordion.Body>
+                            <AssignUser />
                         </Accordion.Body>
                     </Accordion.Item>
                 </Accordion>
             </div>
-            <div className="quiz-table">
-                <QuizTable
-                    handleClickEdit={handleClickEdit}
-                    handleClickDelete={handleClickDelete}
-                    dataQuiz={dataQuiz}
-                    listQuiz={listQuiz}
-                />
-            </div>
+
 
             <QuizModalDelete
                 show={isShowDelete}

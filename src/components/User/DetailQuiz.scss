@@ -16,6 +16,27 @@
             font-weight: 600;
         }
 
+        .quiz-body {
+
+            img {
+                // width: 60%;
+                width: fit-content;
+                height: 400px;
+                // margin: auto;
+                padding: 10px;
+                margin: 10px 0;
+
+            }
+
+            width:fit-content;
+            margin: auto;
+            height: 400px;
+
+        }
+
+
+
+
         .quiz-content {
 
 
@@ -25,18 +46,7 @@
                 color: black;
             }
 
-            .question-img {
 
-                img {
-                    // height: 50vh;
-                }
-
-                width: 60%;
-                // height: 80vh;
-                margin: auto;
-                /* margin: 0px auto; */
-                padding: 20px 0;
-            }
         }
 
         .footer {

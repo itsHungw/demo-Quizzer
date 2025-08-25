@@ -26,13 +26,13 @@ const Question = (props) => {
     return (
         <>
 
-            <div className="question-img">
+            {/* <div className="question-img">
                 {data && data.image
                     ?
                     <img src={`data:image/png;base64,${data.image}`} className="card-img-top" alt="..." />
                     : ''
                 }
-            </div>
+            </div> */}
             <div className="question">
                 Question {+index + 1}: {data.questionDescription}
             </div>

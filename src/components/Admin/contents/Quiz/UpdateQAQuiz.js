@@ -5,7 +5,7 @@ import { FaMinusCircle } from "react-icons/fa";
 import { FaMinusSquare } from "react-icons/fa";
 import { MdAddBox } from "react-icons/md";
 import { RiImageAddFill } from "react-icons/ri";
-import './QuestionMange.scss'
+import './UpdateQAQuiz.scss'
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import { getAllQuiz, postNewQuestionForQuiz, postNewAnswerForQuestion } from '../../../../service/apiService';
@@ -13,7 +13,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 
 
-const QuestionManage = () => {
+const UpdateQAQuiz = () => {
     const initQuestion = [{
         id: uuidv4(),
         description: '',
@@ -28,9 +28,9 @@ const QuestionManage = () => {
         ]
     }]
     const [selectedQuiz, setSelectedQuiz] = useState({})
-    const [listQuiz, setListQuiz] = useState([])
     const [questions, setQuestions] = useState(initQuestion)
 
+    const [listQuiz, setListQuiz] = useState([])
 
 
     useEffect(() => {
@@ -324,4 +324,4 @@ const QuestionManage = () => {
     )
 
 }
-export default QuestionManage
+export default UpdateQAQuiz
