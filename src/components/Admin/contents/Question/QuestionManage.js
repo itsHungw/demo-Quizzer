@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { IoMdAddCircle } from "react-icons/io";
 import { FaMinusCircle } from "react-icons/fa";
@@ -8,12 +8,15 @@ import { RiImageAddFill } from "react-icons/ri";
 import './QuestionMange.scss'
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
+import { getAllQuiz, postNewQuestionForQuiz, postNewAnswerForQuestion } from '../../../../service/apiService';
+
+
 const QuestionManage = () => {
-    const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
-    ];
+    // const options = [
+    //     { value: 'chocolate', label: 'Chocolate' },
+    //     { value: 'strawberry', label: 'Strawberry' },
+    //     { value: 'vanilla', label: 'Vanilla' },
+    // ];
     const [selectedQuiz, setSelectedQuiz] = useState({})
     const [questions, setQuestions] = useState(
         [
@@ -34,7 +37,25 @@ const QuestionManage = () => {
         ]
 
     )
-    // console.log('check', questions)
+
+    const [listQuiz, setListQuiz] = useState([])
+
+
+    useEffect(() => {
+        fetchListQuiz()
+    }, [])
+
+    const fetchListQuiz = async () => {
+        let res = await getAllQuiz();
+        let newQuiz = res.DT.map(item => {
+            return {
+                value: item.id,
+                label: `${item.id} - ${item.description}`
+            }
+        })
+        setListQuiz(newQuiz)
+    }
+
 
     const handleAddRemoveQuestion = (type, id) => {
         // console.log(type, id)
@@ -52,7 +73,6 @@ const QuestionManage = () => {
                     }
                 ]
             }
-
             setQuestions([...questions, newQuestion]);
         }
         if (type === 'REMOVE') {
@@ -76,8 +96,6 @@ const QuestionManage = () => {
             questionClone[index].answers.push(newAnswer)
             setQuestions(questionClone)
         }
-
-
         if (type === 'REMOVE') {
             let index = questionClone.findIndex(item => questionId === item.id)
             questionClone[index].answers = questionClone[index].answers.filter(item => answerId !== item.id)
@@ -129,9 +147,22 @@ const QuestionManage = () => {
     }
 
 
-    const handleSubmitQuestion = () => {
-        console.log(questions)
+    const handleSubmitQuestion = async () => {
+
+        await Promise.all(questions.map(async (question) => {
+            const q = await postNewQuestionForQuiz(
+                +selectedQuiz.value,
+                question.description,
+                question.imageFile);
+            await Promise.all(question.answers.map(async (answer) => {
+                await postNewAnswerForQuestion(
+                    answer.description, answer.isCorrect, question.id
+                )
+            }))
+            console.log('check', q)
+        }))
     }
+
     return (
         <div className="question-container">
             <div className="title">
@@ -143,7 +174,11 @@ const QuestionManage = () => {
                     <Select
                         defaultValue={selectedQuiz}
                         onChange={setSelectedQuiz}
-                        options={options}
+                        options={listQuiz}
+                        menuPortalTarget={document.body}
+                        styles={{
+                            menuPortal: base => ({ ...base, zIndex: 9999 })
+                        }}
                     />
                 </div>
                 <div className='mt-3'>
@@ -160,8 +195,8 @@ const QuestionManage = () => {
                                             type="text"
                                             class="form-control"
                                             placeholder="name@example.com"
-                                            // value={question.description}
-                                            onClick={(event) => { handleOnChange('QUESTION', question.id, event.target.value) }}
+                                            value={question.description}
+                                            onChange={(event) => { handleOnChange('QUESTION', question.id, event.target.value) }}
                                         />
                                         <label >Question {index + 1}'s description</label>
                                     </div>
@@ -247,6 +282,7 @@ const QuestionManage = () => {
                         onClick={() => handleSubmitQuestion()}
                     >Save question</button>
                 </div>
+
 
             </div>
         </div >
