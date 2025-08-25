@@ -9,34 +9,26 @@ import './QuestionMange.scss'
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import { getAllQuiz, postNewQuestionForQuiz, postNewAnswerForQuestion } from '../../../../service/apiService';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 const QuestionManage = () => {
-    // const options = [
-    //     { value: 'chocolate', label: 'Chocolate' },
-    //     { value: 'strawberry', label: 'Strawberry' },
-    //     { value: 'vanilla', label: 'Vanilla' },
-    // ];
-    const [selectedQuiz, setSelectedQuiz] = useState({})
-    const [questions, setQuestions] = useState(
-        [
+    const initQuestion = [{
+        id: uuidv4(),
+        description: '',
+        imageFile: '',
+        imageName: '',
+        answers: [
             {
                 id: uuidv4(),
                 description: '',
-                imageFile: '',
-                imageName: '',
-                answers: [
-                    {
-                        id: uuidv4(),
-                        description: '',
-                        isCorrect: false,
-                    },
-                ]
+                isCorrect: false,
             },
-
         ]
-
-    )
+    }]
+    const [selectedQuiz, setSelectedQuiz] = useState({})
+    const [questions, setQuestions] = useState(initQuestion)
 
     const [listQuiz, setListQuiz] = useState([])
 
@@ -148,144 +140,187 @@ const QuestionManage = () => {
 
 
     const handleSubmitQuestion = async () => {
+        if (_.isEmpty(selectedQuiz)) {
+            toast.error('You must choose quiz')
+            return
+        }
+        let isQuestionValid = true
+        let indexQ1 = 0
+        let isAnswerValid = true;
+        let indexQ = 0;
+        let indexA = 0;
 
-        await Promise.all(questions.map(async (question) => {
+        for (let i = 0; i < questions.length; i++) {
+            if (!questions[i].description) {
+                isQuestionValid = false
+                indexQ1 = i
+                // console.log('check ques', questionValidate, indexQ1)
+                toast.error(`Your question description at question ${indexQ1 + 1} is missing`)
+                return
+            }
+        }
+
+        for (let i = 0; i < questions.length; i++) {
+            for (let j = 0; j < questions[i].answers.length; j++) {
+                if (!questions[i].answers[j].description) {
+                    isAnswerValid = false
+                    indexQ = i;
+                    indexA = j;
+                    // console.log('check answer', answerValidate, indexQ, indexA)
+                    toast.error(`Your answer ${indexA + 1} at question ${indexQ + 1} is missing description`)
+
+                    return;
+                }
+            }
+        }
+
+        for (const question of questions) {
             const q = await postNewQuestionForQuiz(
                 +selectedQuiz.value,
                 question.description,
                 question.imageFile);
-            await Promise.all(question.answers.map(async (answer) => {
+            for (const answer of question.answers) {
                 await postNewAnswerForQuestion(
                     answer.description, answer.isCorrect, question.id
                 )
-            }))
-            console.log('check', q)
-        }))
+            }
+            // console.log('check', q)
+        }
+
+        toast.success('Create new question succeed')
+        setQuestions(initQuestion)
+        // setSelectedQuiz({})
     }
 
     return (
-        <div className="question-container">
-            <div className="title">
-                Manage Question
-            </div>
-            <div className="add-new-question">
-                <div className='col-6 form-group'>
-                    <label>Select Quiz:</label>
-                    <Select
-                        defaultValue={selectedQuiz}
-                        onChange={setSelectedQuiz}
-                        options={listQuiz}
-                        menuPortalTarget={document.body}
-                        styles={{
-                            menuPortal: base => ({ ...base, zIndex: 9999 })
-                        }}
-                    />
+        <>
+            <Toaster
+                position="top-center"
+                reverseOrder={false} />
+            <div className="question-container">
+                <div className="title">
+                    Manage Question
                 </div>
-                <div className='mt-3'>
-                    Add questions:
-                </div>
+                <div className="add-new-question">
+                    <div className='col-6 form-group'>
+                        <label>Select Quiz:</label>
+                        <Select
+                            defaultValue={selectedQuiz}
+                            onChange={setSelectedQuiz}
+                            options={listQuiz}
+                            menuPortalTarget={document.body}
+                            styles={{
+                                menuPortal: base => ({ ...base, zIndex: 9999 })
+                            }}
+                        />
+                    </div>
+                    <div className='mt-3'>
+                        Add questions:
+                    </div>
 
-                {questions && questions.length > 0 &&
-                    questions.map((question, index) => {
-                        return (
-                            <div key={question.id} className='q-main mb-4'>
-                                <div className='questions-content'>
-                                    <div class="form-floating description">
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="name@example.com"
-                                            value={question.description}
-                                            onChange={(event) => { handleOnChange('QUESTION', question.id, event.target.value) }}
-                                        />
-                                        <label >Question {index + 1}'s description</label>
-                                    </div>
-                                    <div className='group-upload'>
-                                        <label
-                                            htmlFor={`${question.id}`}
-                                            className='label-upload'>
-                                            <RiImageAddFill className='upload-icon' />
-
-                                        </label>
-                                        <input
-                                            id={`${question.id}`}
-                                            onChange={(event) => { handleOnChangeFile(question.id, event) }}
-                                            type={"file"}
-                                            hidden />
-                                        <span>{question.imageName ? question.imageName : '0 file is upload'}</span>
-                                    </div>
-                                    <div className='btn-add'>
-                                        <span onClick={() => handleAddRemoveQuestion('ADD', question.i)}>
-                                            <IoMdAddCircle
-                                                className='icon-add'
+                    {questions && questions.length > 0 &&
+                        questions.map((question, index) => {
+                            return (
+                                <div key={question.id} className='q-main mb-4'>
+                                    <div className='questions-content'>
+                                        <div class="form-floating description">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="name@example.com"
+                                                value={question.description}
+                                                onChange={(event) => { handleOnChange('QUESTION', question.id, event.target.value) }}
                                             />
-                                        </span>
-                                        {questions && questions.length > 1 &&
-                                            <span onClick={() => handleAddRemoveQuestion('REMOVE', question.id)}>
-                                                <FaMinusCircle
-                                                    className='icon-remove'
+                                            <label >Question {index + 1}'s description</label>
+                                        </div>
+                                        <div className='group-upload'>
+                                            <label
+                                                htmlFor={`${question.id}`}
+                                                className='label-upload'>
+                                                <RiImageAddFill className='upload-icon' />
+
+                                            </label>
+                                            <input
+                                                id={`${question.id}`}
+                                                onChange={(event) => { handleOnChangeFile(question.id, event) }}
+                                                type={"file"}
+                                                hidden />
+                                            <span>{question.imageName ? question.imageName : '0 file is upload'}</span>
+                                        </div>
+                                        <div className='btn-add'>
+                                            <span onClick={() => handleAddRemoveQuestion('ADD', question.i)}>
+                                                <IoMdAddCircle
+                                                    className='icon-add'
                                                 />
                                             </span>
-                                        }
-                                    </div>
-
-                                </div>
-                                {question.answers && question.answers.length > 0 &&
-                                    question.answers.map((answer, index) => {
-                                        return (
-                                            <div key={answer.id} className='answers-content'>
-                                                <input
-                                                    class="form-check-input iscorrect"
-                                                    type="checkbox"
-                                                    checked={answer.isCorrect}
-                                                    onChange={(event) => handleOnChangeAnswer('CHECKBOX', question.id, answer.id, event.target.checked)}
-                                                />
-                                                <div class="form-floating answer-name">
-                                                    <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="name@example.com"
-                                                        value={answer.description}
-                                                        onChange={(event) => handleOnChangeAnswer('INPUT', question.id, answer.id, event.target.value)}
+                                            {questions && questions.length > 1 &&
+                                                <span onClick={() => handleAddRemoveQuestion('REMOVE', question.id)}>
+                                                    <FaMinusCircle
+                                                        className='icon-remove'
                                                     />
-                                                    <label >Answer {index + 1}</label>
-                                                </div>
-                                                <div className='btn-groups'>
-                                                    <span onClick={() => handleAddRemoveAnswer('ADD', question.id)}>
-                                                        <MdAddBox
-                                                            className='icon-add'
+                                                </span>
+                                            }
+                                        </div>
+
+                                    </div>
+                                    {question.answers && question.answers.length > 0 &&
+                                        question.answers.map((answer, index) => {
+                                            return (
+                                                <div key={answer.id} className='answers-content'>
+                                                    <input
+                                                        class="form-check-input iscorrect"
+                                                        type="checkbox"
+                                                        checked={answer.isCorrect}
+                                                        onChange={(event) => handleOnChangeAnswer('CHECKBOX', question.id, answer.id, event.target.checked)}
+                                                    />
+                                                    <div class="form-floating answer-name">
+                                                        <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="name@example.com"
+                                                            value={answer.description}
+                                                            onChange={(event) => handleOnChangeAnswer('INPUT', question.id, answer.id, event.target.value)}
                                                         />
-                                                    </span>
-                                                    {question.answers && question.answers.length > 1 &&
-                                                        <span onClick={() => handleAddRemoveAnswer('REMOVE', question.id, answer.id)}>
-                                                            <FaMinusSquare
-                                                                className='icon-remove'
+                                                        <label >Answer {index + 1}</label>
+                                                    </div>
+                                                    <div className='btn-groups'>
+                                                        <span onClick={() => handleAddRemoveAnswer('ADD', question.id)}>
+                                                            <MdAddBox
+                                                                className='icon-add'
                                                             />
                                                         </span>
-                                                    }
+                                                        {question.answers && question.answers.length > 1 &&
+                                                            <span onClick={() => handleAddRemoveAnswer('REMOVE', question.id, answer.id)}>
+                                                                <FaMinusSquare
+                                                                    className='icon-remove'
+                                                                />
+                                                            </span>
+                                                        }
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })
-                                }
+                                            )
+                                        })
+                                    }
 
 
-                            </div>
-                        )
-                    })
-                }
+                                </div>
+                            )
+                        })
+                    }
 
 
-                <div>
-                    <button
-                        className='btn btn-primary mt-3'
-                        onClick={() => handleSubmitQuestion()}
-                    >Save question</button>
+                    <div>
+                        <button
+                            className='btn btn-primary mt-3'
+                            onClick={() => handleSubmitQuestion()}
+                        >Save question</button>
+                    </div>
+
+
                 </div>
+            </div >
+        </>
 
-
-            </div>
-        </div >
     )
 
 }
