@@ -1,7 +1,7 @@
 
 import { data } from 'autoprefixer';
 import { INCREMENT, DECREMENT } from '../action/counterAction';
-import { FETCH_USER } from '../action/userAction';
+import { FETCH_USER, LOGOUT_USER } from '../action/userAction';
 const INITIAL_STATE = {
     account: {
         access_token: '',
@@ -29,9 +29,19 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 isAuthenticated: true,
             };
 
-        case DECREMENT:
+        case LOGOUT_USER:
             return {
-                ...state, count: state.count - 1,
+                ...state,
+                account: {
+                    access_token: '',
+                    refresh_token: '',
+                    username: '',
+                    email: '',
+                    image: '',
+                    role: ''
+                },
+                isAuthenticated: false,
+
             };
         default: return state;
     }

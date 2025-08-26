@@ -3,10 +3,21 @@ import Timer from './Timer'
 
 
 const RightContent = (props) => {
-    const { dataQuiz, handleSubmit } = props
+    const { dataQuiz, handleSubmit, setCurrentIndex } = props
 
     const setTimeUp = () => {
         handleSubmit()
+    }
+
+    const isSelected = (question, index) => {
+        if (question && question.answer.length > 0) {
+            console.log('check dt q', question.answer)
+            let isAnswered = question.answer.find(answer => answer.isSelected === true)
+            if (isAnswered) {
+                return 'q-number selected'
+            }
+            return 'q-number'
+        }
     }
     return (
         <>
@@ -18,6 +29,7 @@ const RightContent = (props) => {
                     />
                 </div>
             </div>
+
             <div className="list-questions">
 
                 {
@@ -26,7 +38,10 @@ const RightContent = (props) => {
                         return (
                             <div
                                 key={`question-abc-${index}`}
-                                className='q-number'>{index + 1}
+                                onClick={() => setCurrentIndex(index)}
+                                className={isSelected(item, index)}
+
+                            >{index + 1}
                             </div>
 
                         )

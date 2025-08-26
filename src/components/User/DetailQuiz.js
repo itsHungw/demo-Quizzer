@@ -208,6 +208,7 @@ const DetailQuiz = (props) => {
                 <RightContent
                     dataQuiz={dataQuiz}
                     handleSubmit={handleSubmit}
+                    setCurrentIndex={setCurrentIndex}
                 />
             </div>
 

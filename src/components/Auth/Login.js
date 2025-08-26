@@ -149,6 +149,12 @@ function Login() {
         }
     };
 
+
+    const handleOnKey = (event) => {
+        if (event.key === 'Enter') {
+            handleLogin()
+        }
+    }
     return (
         <>
             <Toaster position="top-center" reverseOrder={false} />
@@ -232,6 +238,14 @@ function Login() {
                                     placeholder="Password"
                                     className={`form-control${passwordError ? ' is-invalid' : ''}`}
                                     style={passwordError ? { borderColor: 'red' } : {}}
+                                    onKeyDown={(event) => {
+                                        if (event.key === 'Enter') {
+                                            if (activeTab === 'register') {
+                                                handleRegister()
+                                            } if (activeTab === 'login')
+                                                handleLogin()
+                                        }
+                                    }}
                                 />
                                 {passwordError && <div style={{ color: 'red', fontSize: '13px' }}>{passwordError}</div>}
                                 <button

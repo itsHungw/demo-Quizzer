@@ -28,5 +28,9 @@
         &:hover {
             border: 2px red solid;
         }
+
+        &.selected {
+            background-color: #ccc;
+        }
     }
 }
