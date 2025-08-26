@@ -9,8 +9,9 @@ import './UpdateQAQuiz.scss'
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import {
-    getAllQuiz, postNewQuestionForQuiz,
-    postNewAnswerForQuestion, getQuizWithQA
+    getAllQuiz,
+    postNewAnswerForQuestion, getQuizWithQA,
+    postUpsertQuizQA
 } from '../../../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -209,31 +210,42 @@ const UpdateQAQuiz = () => {
             }
         }
 
-        // for (const question of questions) {
-        //     const q = await postNewQuestionForQuiz(
-        //         +selectedQuiz.value,
-        //         question.description,
-        //         question.imageFile);
-        //     for (const answer of question.answers) {
-        //         await postNewAnswerForQuestion(
-        //             answer.description, answer.isCorrect, question.id
-        //         )
-        //     }
-        //     // console.log('check', q)
-        // }
+        let questionClone = _.cloneDeep(questions)
+        for (let i = 0; i < questionClone.length; i++) {
+            if (questionClone[i].imageFile) {
+                questionClone[i].imageFile = await toBase64(questionClone[i].imageFile)
+            }
+        }
 
-        let res = await getQuizWithQA(selectedQuiz.value)
-        console.log(res)
-        toast.success('Create new question succeed')
-        setQuestions(initQuestion)
+        let res = await postUpsertQuizQA({
+            quizId: selectedQuiz.value,
+            questions: questionClone
+        })
+        // console.log(res)
+
+        // console.log('ques clone', questionClone)
+        if (res.EC === 0) {
+            fetchQuizQA()
+            toast.success(res.EM)
+        }
+        // setQuestions(initQuestion)
         // setSelectedQuiz({})
     }
 
+    const toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+    });
 
     const handleUpdateQA = async () => {
 
         toast.success('Create new question succeed')
     }
+
+    // console.log('ques ', questions)
+
     return (
         <>
             <Toaster
@@ -354,7 +366,7 @@ const UpdateQAQuiz = () => {
                     <div>
                         <button
                             className='btn btn-primary mt-3'
-                            onClick={() => handleUpdateQA()}
+                            onClick={() => handleSubmitQuestion()}
                         >Save question</button>
                     </div>
 

@@ -26,11 +26,11 @@ const ListQuiz = (props) => {
                         <div key={`${index}-quiz`} className="card" style={{ width: '18rem' }}>
                             <img src={`data:image/png;base64,${quiz.image}`} className="card-img-top" alt="..." />
                             <div className="card-body">
-                                <h5 className="card-title">Quiz {index + 1}</h5>
+                                <h5 className="card-title">Quiz {quiz.id}</h5>
                                 <p className="card-text">{quiz.description}</p>
                                 <button
                                     className="btn btn-primary"
-                                    onClick={() => navigate(`/quiz/${index + 1}`, { state: { title: quiz.description } })}
+                                    onClick={() => navigate(`/quiz/${quiz.id}`, { state: { title: quiz.description } })}
                                 >Start now
                                 </button>
                             </div>

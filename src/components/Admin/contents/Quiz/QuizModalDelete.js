@@ -19,9 +19,9 @@ const QuizModalDelete = (props) => {
             {/* <Button variant="primary" onClick={handleShow}>
                 Launch demo modal
             </Button> */}
-            {/* <Toaster
-                position="top-right"
-                reverseOrder={false} /> */}
+            <Toaster
+                position="top-center"
+                reverseOrder={false} />
             <Modal
                 show={show}
                 onHide={handleClose}>

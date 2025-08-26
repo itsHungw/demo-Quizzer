@@ -179,12 +179,14 @@ const QuestionManage = () => {
                 +selectedQuiz.value,
                 question.description,
                 question.imageFile);
+            console.log('check', q)
             for (const answer of question.answers) {
                 await postNewAnswerForQuestion(
-                    answer.description, answer.isCorrect, question.id
+                    answer.description,
+                    answer.isCorrect,
+                    q?.DT?.id
                 )
             }
-            // console.log('check', q)
         }
 
         toast.success('Create new question succeed')

@@ -97,9 +97,9 @@ const QuizzesManage = () => {
     }
     return (
         <div className="quiz-manage-container">
-            <Toaster
+            {/* <Toaster
                 position="top-center"
-                reverseOrder={false} />
+                reverseOrder={false} /> */}
             <div className="title">
                 Manage Quizzes
             </div>
