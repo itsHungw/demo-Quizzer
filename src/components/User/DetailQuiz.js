@@ -6,6 +6,7 @@ import { data } from "autoprefixer";
 import './DetailQuiz.scss'
 import Question from "./Question";
 import ModalResult from "./ModalResult";
+import RightContent from "./RightContent/RightContent";
 
 const DetailQuiz = (props) => {
     const params = useParams()
@@ -17,14 +18,18 @@ const DetailQuiz = (props) => {
 
     const [isShowModal, setIsShowModal] = useState(false)
     const [res, setRes] = useState({})
+
     const handlePrev = () => {
         if (currentIndex - 1 < 0) return;
         setCurrentIndex(+currentIndex - 1)
+        console.log(currentIndex)
     }
 
     const handleNext = () => {
         if (currentIndex + 1 < dataQuiz.length)
             setCurrentIndex(+currentIndex + 1)
+        console.log(currentIndex)
+
 
     }
 
@@ -103,7 +108,7 @@ const DetailQuiz = (props) => {
         //     ]
         // }
 
-        // console.log(dataQuiz)
+        // console.log('dataquiz', dataQuiz)
 
         let payload = {
             quizId: +quizId,
@@ -145,7 +150,7 @@ const DetailQuiz = (props) => {
     return (
         <div className="detail-quiz-container">
 
-            <div className="right-content">
+            <div className="left-content">
                 <div className="quiz-title">
                     Quiz {quizId}:  {location?.state?.description}
                 </div>
@@ -199,8 +204,11 @@ const DetailQuiz = (props) => {
                 </div>
             </div>
 
-            <div className="left-content">
-                count down
+            <div className="right-content">
+                <RightContent
+                    dataQuiz={dataQuiz}
+                    handleSubmit={handleSubmit}
+                />
             </div>
 
             <ModalResult

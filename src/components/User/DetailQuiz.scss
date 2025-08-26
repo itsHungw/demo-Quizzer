@@ -4,7 +4,7 @@
     margin: 100px;
     gap: 20px;
 
-    .right-content {
+    .left-content {
         border: 2px #ccc solid;
         flex: 5;
         // text-align: center;
@@ -72,7 +72,7 @@
         }
     }
 
-    .left-content {
+    .right-content {
         text-align: center;
         flex: 3;
         border: 2px solid black;

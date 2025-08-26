@@ -1,0 +1,32 @@
+.count-down {
+    padding: 25px 0;
+    border-bottom: 1px dashed;
+
+    .timer {
+        font-size: 20px;
+        font-weight: 600;
+    }
+}
+
+.list-questions {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 40px;
+    cursor: pointer;
+
+    .q-number {
+        border-radius: 50%;
+        border: 2px solid black;
+        height: 50px;
+        width: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+
+        &:hover {
+            border: 2px red solid;
+        }
+    }
+}

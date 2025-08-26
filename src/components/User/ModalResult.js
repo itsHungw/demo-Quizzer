@@ -34,12 +34,12 @@ const ModalResult = (props) => {
                     <div>Total correct answer: <b>{res.countCorrect}</b></div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancel
-                    </Button>
                     <Button variant="danger" onClick={handleClose}>
-                        Delete
+                        Close
                     </Button>
+                    {/* <Button variant="danger" onClick={handleClose}>
+                        Delete
+                    </Button> */}
                 </Modal.Footer>
             </Modal>
         </>
