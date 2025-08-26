@@ -8,7 +8,10 @@ import { RiImageAddFill } from "react-icons/ri";
 import './UpdateQAQuiz.scss'
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
-import { getAllQuiz, postNewQuestionForQuiz, postNewAnswerForQuestion } from '../../../../service/apiService';
+import {
+    getAllQuiz, postNewQuestionForQuiz,
+    postNewAnswerForQuestion, getQuizWithQA
+} from '../../../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -37,6 +40,38 @@ const UpdateQAQuiz = () => {
         fetchListQuiz()
     }, [])
 
+    useEffect(() => {
+        if (selectedQuiz && selectedQuiz.value) {
+            fetchQuizQA()
+        }
+    }, [selectedQuiz])
+
+
+    const urltoFile = (url, filename, mimeType) => {
+        return (fetch(url)
+            .then(function (res) { return res.arrayBuffer(); })
+            .then(function (buf) { return new File([buf], filename, { type: mimeType }); })
+        );
+    }
+
+    // urltoFile(`data:text/plain;base64,  `, 'hello.txt', 'text/plain')
+    //     .then(function (file) { console.log(file); })
+
+    const fetchQuizQA = async () => {
+        let res = await getQuizWithQA(selectedQuiz.value)
+        // console.log(res)
+        let newQA = [];
+        for (let i = 0; i < res.DT.qa.length; i++) {
+            let q = res.DT.qa[i];
+            if (q.imageFile) {
+                q.imageName = `Question - ${q.id}.png`;
+                q.imageFile =
+                    await urltoFile(`data:image/png;base64, ${q.imageFile} `, `Question - ${q.id}`, 'image/png')
+            }
+            newQA.push(q)
+        }
+        setQuestions(newQA)
+    }
     const fetchListQuiz = async () => {
         let res = await getAllQuiz();
         let newQuiz = res.DT.map(item => {
@@ -174,24 +209,31 @@ const UpdateQAQuiz = () => {
             }
         }
 
-        for (const question of questions) {
-            const q = await postNewQuestionForQuiz(
-                +selectedQuiz.value,
-                question.description,
-                question.imageFile);
-            for (const answer of question.answers) {
-                await postNewAnswerForQuestion(
-                    answer.description, answer.isCorrect, question.id
-                )
-            }
-            // console.log('check', q)
-        }
+        // for (const question of questions) {
+        //     const q = await postNewQuestionForQuiz(
+        //         +selectedQuiz.value,
+        //         question.description,
+        //         question.imageFile);
+        //     for (const answer of question.answers) {
+        //         await postNewAnswerForQuestion(
+        //             answer.description, answer.isCorrect, question.id
+        //         )
+        //     }
+        //     // console.log('check', q)
+        // }
 
+        let res = await getQuizWithQA(selectedQuiz.value)
+        console.log(res)
         toast.success('Create new question succeed')
         setQuestions(initQuestion)
         // setSelectedQuiz({})
     }
 
+
+    const handleUpdateQA = async () => {
+
+        toast.success('Create new question succeed')
+    }
     return (
         <>
             <Toaster
@@ -312,7 +354,7 @@ const UpdateQAQuiz = () => {
                     <div>
                         <button
                             className='btn btn-primary mt-3'
-                            onClick={() => handleSubmitQuestion()}
+                            onClick={() => handleUpdateQA()}
                         >Save question</button>
                     </div>
 
