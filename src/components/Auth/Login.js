@@ -5,6 +5,7 @@ import { postLogin, postRegister } from '../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { doLogin } from '../../redux/action/userAction';
+import Language from '../Header/Language';
 
 
 
@@ -159,6 +160,9 @@ function Login() {
         <>
             <Toaster position="top-center" reverseOrder={false} />
             <div className="login-container">
+                <Language
+
+                />
                 <div className="login-card">
                     <div className="login-header">
                         <h1 className="login-title">

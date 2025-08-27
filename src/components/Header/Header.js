@@ -8,6 +8,7 @@ import { NavDropdown } from 'react-bootstrap';
 import { logout } from '../../service/apiService';
 import { doLogout } from '../../redux/action/userAction';
 import toast from 'react-hot-toast';
+import Language from './Language';
 const Header = () => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
@@ -39,10 +40,6 @@ const Header = () => {
     }
 
 
-
-
-
-
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -58,15 +55,15 @@ const Header = () => {
                         {
                             isAuthenticated ?
                                 <NavDropdown title="Setting" id="basic-nav-dropdown">
+                                    <NavDropdown.Item href="#action/3.3">
+                                        Profile
+                                    </NavDropdown.Item>
                                     <NavDropdown.Item
                                         onClick={() => handleLogout()}
                                         href="#action/3.2">
                                         Log out
                                     </NavDropdown.Item>
 
-                                    <NavDropdown.Item href="#action/3.3">
-                                        Profile
-                                    </NavDropdown.Item>
                                 </NavDropdown>
                                 :
                                 <>
@@ -75,6 +72,8 @@ const Header = () => {
 
                                 </>
                         }
+
+                        <Language />
 
 
                     </Nav>
