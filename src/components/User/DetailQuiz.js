@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom"
 import { getQuizById, postSubmitQuiz } from "../../service/apiService";
 import _ from "lodash";
-import { data } from "autoprefixer";
 import './DetailQuiz.scss'
 import Question from "./Question";
 import ModalResult from "./ModalResult";
@@ -81,6 +80,7 @@ const DetailQuiz = (props) => {
                         answer.push(item.answers);
                         // console.log('answer', item.answers)
                     })
+                    answer = _.orderBy(answer, ['id'], ['asc']);
                     return { questionId: key, answer, questionDescription, image }
                 })
                 .value();

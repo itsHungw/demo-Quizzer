@@ -4,6 +4,10 @@ import { FaBars } from "react-icons/fa"
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
 import { Scrollbar } from 'react-scrollbars-custom';
+import Language from "../Header/Language"
+import { NavDropdown } from 'react-bootstrap';
+
+
 const AdminPage = (props) => {
     const [collapsed, setCollapsed] = useState(false)
 
@@ -18,7 +22,20 @@ const AdminPage = (props) => {
                 <Scrollbar >
 
                     <div className="admin-header">
-                        <FaBars onClick={() => setCollapsed(!collapsed)} />
+                        <span className="toggle-sidebar"><FaBars onClick={() => setCollapsed(!collapsed)} /></span>
+                        <div className="setting">
+                            <NavDropdown title="Setting" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="#action/3.3">
+                                    Profile
+                                </NavDropdown.Item>
+                                <NavDropdown.Item
+                                    // onClick={() => handleLogout()}
+                                    href="#action/3.2">
+                                    Log out
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                            <Language />
+                        </div>
                     </div>
 
                     <div className="admin-main">
