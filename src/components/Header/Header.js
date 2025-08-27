@@ -9,10 +9,13 @@ import { logout } from '../../service/apiService';
 import { doLogout } from '../../redux/action/userAction';
 import toast from 'react-hot-toast';
 import Language from './Language';
+import { useTranslation } from 'react-i18next';
 const Header = () => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const account = useSelector(state => state.user.account);
+    const { t } = useTranslation()
+
     // console.log('acc', account)
     const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState('register');
@@ -49,18 +52,24 @@ const Header = () => {
                     <Nav className="me-auto">
                         <NavLink className='nav-link' to="/">Home</NavLink>
                         <NavLink className='nav-link' to="/users">User</NavLink>
-                        <NavLink className='nav-link' to="/admins">Admin</NavLink>
+                        {
+                            account.role === 'USER' ?
+                                <NavLink className='nav-link' to="/profile">Profile</NavLink>
+                                :
+                                <NavLink className='nav-link' to="/admins">Admin</NavLink>
+                        }
                     </Nav>
+
                     <Nav>
                         {
                             isAuthenticated ?
                                 <NavDropdown title="Setting" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="#action/3.3">
+                                    <NavDropdown.Item >
                                         Profile
                                     </NavDropdown.Item>
                                     <NavDropdown.Item
                                         onClick={() => handleLogout()}
-                                        href="#action/3.2">
+                                    >
                                         Log out
                                     </NavDropdown.Item>
 

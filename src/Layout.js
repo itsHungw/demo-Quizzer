@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from './App';
 import AdminPage from './components/Admin/Admin';
-import UserPage from './components/User/User';
+
 import HomePage from './components/Home/HomePage';
 import DashBoard from './components/Admin/contents/Dashboard';
 import ManageUser from './components/Admin/contents/MangeUser';
@@ -17,10 +17,11 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import ListQuiz from './components/User/ListQuiz';
 import DetailQuiz from './components/User/DetailQuiz';
 import QuizzesManage from './components/Admin/contents/Quiz/QuizzesMange';
-import Question from './components/User/Question';
+
 import QuestionManage from './components/Admin/contents/Question/QuestionManage';
 import PrivateRoute from './routes/PrivateRoute';
 import { Suspense } from 'react';
+import ProfileUser from './components/Profile/Profile';
 
 const NotFound = () => {
     return (
@@ -42,6 +43,7 @@ const Layout = () => {
 
                     } />
                 </Route>
+                <Route path="/profile" element={<ProfileUser />} />
 
                 <Route path="/quiz/:id" element={<DetailQuiz />} />
 

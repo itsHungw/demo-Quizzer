@@ -120,6 +120,13 @@ const getDashboardOverview = () => {
 
 }
 
+const updateProfile = (username, userImage) => {
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('userImage', userImage);
+
+    return axios.post(`api/v1/profile`, formData)
+}
 export {
     postCreateNewUser, getAllUser, putUpdateUser,
     deleteUser, getListWithPaginate, postLogin,
@@ -127,5 +134,5 @@ export {
     postSubmitQuiz, postAddNewQuiz, getAllQuiz, deleteQuiz,
     putUpdateQuiz, postNewQuestionForQuiz, postNewAnswerForQuestion,
     postAssignQuiz, getQuizWithQA, postUpsertQuizQA,
-    logout, getDashboardOverview
+    logout, getDashboardOverview, updateProfile
 }
