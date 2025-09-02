@@ -76,7 +76,7 @@ const QuizModalEdit = (props) => {
         // }
         // Validate username
         if (!description) {
-            setUsernameError("Description is required.");
+            // setUsernameError("Description is required.");
             hasError = true;
         }
         if (hasError) return;
