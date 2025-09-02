@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import App from './App';
 import AdminPage from './components/Admin/Admin';
 import UserPage from './components/User/User';
@@ -28,9 +28,9 @@ root.render(
     <PersistGate loading={null} persistor={persistor}>
 
       {/* <RootComponent /> */}
-      <BrowserRouter>
+      <HashRouter>
         <Layout />
-      </BrowserRouter>
+      </HashRouter>
 
     </PersistGate>
 
