@@ -16,7 +16,6 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import Layout from './Layout';
 import { PersistGate } from 'redux-persist/integration/react'
-import i18n from './utils/i18n';
 // import 'react-bootstrap';
 
 

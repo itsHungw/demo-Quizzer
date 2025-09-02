@@ -9,12 +9,10 @@ import { logout } from '../../service/apiService';
 import { doLogout } from '../../redux/action/userAction';
 import toast from 'react-hot-toast';
 import Language from './Language';
-import { useTranslation } from 'react-i18next';
 const Header = () => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     const account = useSelector(state => state.user.account);
-    const { t } = useTranslation()
 
     // console.log('acc', account)
     const dispatch = useDispatch()

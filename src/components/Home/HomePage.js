@@ -1,14 +1,12 @@
 import video from '../../assets/video-homepage.mp4'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
-import { useTranslation, Trans } from 'react-i18next';
 
 const HomePage = () => {
     const isAuthenticated = useSelector(state => state.user.isAuthenticated);
     // const account = useSelector(state => state.user.account);
     // console.log(account, isAuthenticated)
     const navigate = useNavigate()
-    const { t } = useTranslation()
     return (
         <div className='homepage-container'>
             <video autoPlay muted loop>
@@ -16,11 +14,10 @@ const HomePage = () => {
             </video>
             <div className='homepage-content'>
                 <div className='title-1'>
-
-                    {t('homepage.title1')}
+                    QUIZZER
                 </div>
                 <div className='title-2'>
-                    {t('homepage.title2')}
+                    Hello
 
                 </div>
                 <div className='title-3'>
