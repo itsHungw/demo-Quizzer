@@ -64,7 +64,9 @@ const Header = () => {
                         {
                             isAuthenticated ?
                                 <NavDropdown title="Setting" id="basic-nav-dropdown">
-                                    <NavDropdown.Item >
+                                    <NavDropdown.Item
+                                        onClick={() => navigate('/profile')}
+                                    >
                                         Profile
                                     </NavDropdown.Item>
                                     <NavDropdown.Item

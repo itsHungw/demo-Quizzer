@@ -1,10 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import AdminPage from './components/Admin/Admin';
 
@@ -33,36 +29,38 @@ const NotFound = () => {
 const Layout = () => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <Routes>
-                <Route path="/" element={<App />} >
-                    <Route index element={<HomePage />} />
-                    <Route path="users" element={
+            <HashRouter>
+                <Routes>
+                    <Route path="/" element={<App />} >
+                        <Route index element={<HomePage />} />
+                        <Route path="users" element={
+                            <PrivateRoute>
+                                <ListQuiz />
+                            </PrivateRoute>
+
+                        } />
+                    </Route>
+                    <Route path="/profile" element={<ProfileUser />} />
+
+                    <Route path="/quiz/:id" element={<DetailQuiz />} />
+
+                    <Route path="/admins" element={
                         <PrivateRoute>
-                            <ListQuiz />
+                            <AdminPage />
                         </PrivateRoute>
-
-                    } />
-                </Route>
-                <Route path="/profile" element={<ProfileUser />} />
-
-                <Route path="/quiz/:id" element={<DetailQuiz />} />
-
-                <Route path="/admins" element={
-                    <PrivateRoute>
-                        <AdminPage />
-                    </PrivateRoute>
-                } >
-                    <Route index element={<DashBoard />} />
-                    <Route path="manage-users" element={<ManageUser />} />
-                    <Route path="manage-quizzes" element={<QuizzesManage />} />
-                    <Route path="manage-questions" element={<QuestionManage />} />
+                    } >
+                        <Route index element={<DashBoard />} />
+                        <Route path="manage-users" element={<ManageUser />} />
+                        <Route path="manage-quizzes" element={<QuizzesManage />} />
+                        <Route path="manage-questions" element={<QuestionManage />} />
 
 
-                </Route>
-                <Route path="/login" element={<Login />} />
-                <Route path="*" element={<NotFound />} />
+                    </Route>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="*" element={<NotFound />} />
 
-            </Routes>
+                </Routes>
+            </HashRouter>
         </Suspense>
     )
 }

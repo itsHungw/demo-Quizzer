@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store, persistor } from './redux/store';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from './App';
 import AdminPage from './components/Admin/Admin';
@@ -17,6 +17,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Layout from './Layout';
 import { PersistGate } from 'redux-persist/integration/react'
 import i18n from './utils/i18n';
+// import 'react-bootstrap';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
