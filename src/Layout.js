@@ -29,38 +29,38 @@ const NotFound = () => {
 const Layout = () => {
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <HashRouter>
-                <Routes>
-                    <Route path="/" element={<App />} >
-                        <Route index element={<HomePage />} />
-                        <Route path="users" element={
-                            <PrivateRoute>
-                                <ListQuiz />
-                            </PrivateRoute>
 
-                        } />
-                    </Route>
-                    <Route path="/profile" element={<ProfileUser />} />
-
-                    <Route path="/quiz/:id" element={<DetailQuiz />} />
-
-                    <Route path="/admins" element={
+            <Routes>
+                <Route path="/" element={<App />} >
+                    <Route index element={<HomePage />} />
+                    <Route path="users" element={
                         <PrivateRoute>
-                            <AdminPage />
+                            <ListQuiz />
                         </PrivateRoute>
-                    } >
-                        <Route index element={<DashBoard />} />
-                        <Route path="manage-users" element={<ManageUser />} />
-                        <Route path="manage-quizzes" element={<QuizzesManage />} />
-                        <Route path="manage-questions" element={<QuestionManage />} />
+
+                    } />
+                </Route>
+                <Route path="/profile" element={<ProfileUser />} />
+
+                <Route path="/quiz/:id" element={<DetailQuiz />} />
+
+                <Route path="/admins" element={
+                    <PrivateRoute>
+                        <AdminPage />
+                    </PrivateRoute>
+                } >
+                    <Route index element={<DashBoard />} />
+                    <Route path="manage-users" element={<ManageUser />} />
+                    <Route path="manage-quizzes" element={<QuizzesManage />} />
+                    <Route path="manage-questions" element={<QuestionManage />} />
 
 
-                    </Route>
-                    <Route path="/login" element={<Login />} />
-                    <Route path="*" element={<NotFound />} />
+                </Route>
+                <Route path="/login" element={<Login />} />
+                <Route path="*" element={<NotFound />} />
 
-                </Routes>
-            </HashRouter>
+            </Routes>
+
         </Suspense>
     )
 }
