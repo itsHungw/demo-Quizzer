@@ -31,6 +31,7 @@ const Layout = () => {
         <Suspense fallback={<div>Loading...</div>}>
 
             <Routes>
+                <Route path="/" element={<Navigate to="/demo-Quizzer" replace />} />
                 <Route path="/" element={<App />} >
                     <Route index element={<HomePage />} />
                     <Route path="users" element={
