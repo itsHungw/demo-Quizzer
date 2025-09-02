@@ -1,16 +1,14 @@
-import enTranslation from './locales/en/translation.json';
-import viTranslation from './locales/vi/translation.json';
-
 i18n
+    .use(Backend)
+    .use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        resources: {
-            en: { translation: enTranslation },
-            vi: { translation: viTranslation },
-        },
-        lng: 'en',
+        debug: true,
         fallbackLng: 'en',
         interpolation: {
             escapeValue: false,
+        },
+        backend: {
+            loadPath: process.env.PUBLIC_URL + '/locales/{{lng}}/{{ns}}.json',
         },
     });
