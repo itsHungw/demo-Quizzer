@@ -14,10 +14,10 @@ const HomePage = () => {
             </video>
             <div className='homepage-content'>
                 <div className='title-1'>
-                    QUIZZER
+                    QUIZZER There's a better way to do quiz
                 </div>
                 <div className='title-2'>
-                    Hello
+                    You don't want to study a boring note. And you want a platform for doing quiz. QUIZZER will make you and everyone happy.
 
                 </div>
                 <div className='title-3'>
