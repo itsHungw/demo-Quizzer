@@ -1,8 +1,7 @@
 import ModalCreateUser from "./ModalCreateUser"
 import './ManageUser.scss'
-import { use, useState } from "react"
+import { useState } from "react"
 import { IoMdAddCircle } from "react-icons/io";
-import TableUser from "./TableUser";
 import { useEffect } from "react"
 import { getAllUser } from "../../../service/apiService"
 import ModalUpdateUser from "./ModalUpdateUser";
@@ -19,7 +18,6 @@ const ManageUser = () => {
     const [listUser, setListUser] = useState([])
     const [isShowUpdate, setShowUpdate] = useState(false)
     const [dataUser, setDataUser] = useState()
-    const [dataUpdate, setDataUpdate] = useState()
     const [isShowView, setShowView] = useState(false)
     const [isShowDelete, setShowDelete] = useState(false)
     const [pageCount, setPageCount] = useState(0)
@@ -31,13 +29,7 @@ const ManageUser = () => {
         fetchListUserWithPaginate(currentPage)
     }, [])
 
-    const fetchListUser = async () => {
-        let res = await getAllUser();
-        // console.log(res.DT)
-        if (res.EC === 0) {
-            setListUser(res.DT);
-        }
-    }
+
 
     const fetchListUserWithPaginate = async (page) => {
         let res = await getListWithPaginate(page, LIMIT_USER);

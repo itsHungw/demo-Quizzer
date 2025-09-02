@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import './QuizManage.scss'
 import Select from 'react-select';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import QuizTable from './QuizTable';
-import { deleteQuiz, getAllQuiz, postAddNewQuiz, putUpdateQuiz } from '../../../../service/apiService';
+import { deleteQuiz, getAllQuiz, postAddNewQuiz } from '../../../../service/apiService';
 import QuizModalDelete from './QuizModalDelete';
 import QuizModalEdit from './QuizModalEdit';
 import Accordion from 'react-bootstrap/Accordion';

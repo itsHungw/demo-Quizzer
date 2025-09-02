@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { IoMdAddCircle } from "react-icons/io";
-import toast, { Toaster } from 'react-hot-toast';
-import { tab } from '@testing-library/user-event/dist/tab';
+import toast from 'react-hot-toast';
 import _ from 'lodash';
 import { putUpdateQuiz } from '../../../../service/apiService';
 
@@ -45,7 +44,7 @@ const QuizModalEdit = (props) => {
 
     const [nameError, setNameError] = useState("");
     const [descriptionError, setDescriptionError] = useState("");
-    const [usernameError, setUsernameError] = useState("");
+    // const [usernameError, setUsernameError] = useState("");
 
 
     const handleClose = () => {
@@ -59,9 +58,8 @@ const QuizModalEdit = (props) => {
 
         setNameError("");
         setDescriptionError("");
-        setUsernameError("");
+        // setUsernameError("");
     }
-    const handleShow = () => setShow(true);
 
 
     const handleEdit = async () => {

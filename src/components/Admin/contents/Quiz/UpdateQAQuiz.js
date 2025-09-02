@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import {
     getAllQuiz,
-    postNewAnswerForQuestion, getQuizWithQA,
+    getQuizWithQA,
     postUpsertQuizQA
 } from '../../../../service/apiService';
 import toast, { Toaster } from 'react-hot-toast';

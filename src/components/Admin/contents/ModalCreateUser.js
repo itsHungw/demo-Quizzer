@@ -1,15 +1,13 @@
-import axios from 'axios';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { IoMdAddCircle } from "react-icons/io";
 import toast, { Toaster } from 'react-hot-toast';
-import { tab } from '@testing-library/user-event/dist/tab';
 import { postCreateNewUser } from '../../../service/apiService';
 
 
 function ModalCreateUser(props) {
-    const { show, setShow, fetchListUserWithPaginate } = props
+    const { show, setShow, } = props
     // const [show, setShow] = useState(false);
     const handleClose = () => {
         setShow(false);
@@ -23,7 +21,6 @@ function ModalCreateUser(props) {
         setPasswordError("");
         setUsernameError("");
     }
-    const handleShow = () => setShow(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUserName] = useState("");

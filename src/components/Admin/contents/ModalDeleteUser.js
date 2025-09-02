@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { deleteUser } from '../../../service/apiService';
@@ -10,7 +9,6 @@ const ModalDeleteUser = (props) => {
     const { show, setShow, dataUser } = props
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const handleDelete = async () => {
         let data = await deleteUser(dataUser && dataUser.id ? dataUser.id : "")

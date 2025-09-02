@@ -1,10 +1,9 @@
-import { deleteQuiz, getAllQuiz, postAddNewQuiz } from '../../../../service/apiService';
-import { useEffect, useState } from 'react';
+
 
 
 
 const QuizTable = (props) => {
-    const { handleClickDelete, handleClickEdit, dataQuiz, listQuiz } = props
+    const { handleClickDelete, handleClickEdit, listQuiz } = props
 
     return (
         <table class="table table-striped">

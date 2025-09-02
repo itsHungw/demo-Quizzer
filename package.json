@@ -1,5 +1,6 @@
 {
-  "name": "base-react-redux",
+  "name": "demo-quizzer",
+  "homepage": "https://yourusername.github.io/demo-Quizzer",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

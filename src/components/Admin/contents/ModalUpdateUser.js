@@ -1,10 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { IoMdAddCircle } from "react-icons/io";
 import toast, { Toaster } from 'react-hot-toast';
-import { tab } from '@testing-library/user-event/dist/tab';
 import { putUpdateUser } from '../../../service/apiService';
 import _ from 'lodash';
 
@@ -24,7 +22,6 @@ function ModalUpdateUser(props) {
         setPasswordError("");
         setUsernameError("");
     }
-    const handleShow = () => setShow(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUserName] = useState("");

@@ -1,10 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { IoMdAddCircle } from "react-icons/io";
 import toast, { Toaster } from 'react-hot-toast';
-import { tab } from '@testing-library/user-event/dist/tab';
 import { putUpdateUser } from '../../../service/apiService';
 import _ from 'lodash';
 
@@ -24,7 +22,6 @@ function ModalViewUser(props) {
         setPasswordError("");
         setUsernameError("");
     }
-    const handleShow = () => setShow(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUserName] = useState("");
@@ -115,40 +112,7 @@ function ModalViewUser(props) {
 
 
 
-    //submit form 
-    const handleSubmit = async () => {
-        let hasError = false;
-        // Validate email
-        if (!validateEmail(email)) {
-            setEmailError("Email is required.");
-            hasError = true;
-        }
-        // Validate password
-        // if (!validatePassword(password)) {
-        //     setPasswordError("Password is required.");
-        //     hasError = true;
-        // }
-        // Validate username
-        if (!username) {
-            setUsernameError("Username is required.");
-            hasError = true;
-        }
-        if (hasError) return;
 
-
-
-        let data = await putUpdateUser(dataUser.id, username, role, image)
-        // console.log('Componetn', data);
-
-        if (data.EC !== 0) {
-            toast.error(data.EM);
-        }
-        else {
-            toast.success(data.EM)
-            handleClose();
-            await props.fetchListUser()
-        }
-    }
 
     // console.log('check data ', dataUser)
 
